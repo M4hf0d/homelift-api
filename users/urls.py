@@ -4,7 +4,6 @@ from .views import registration_view, logout_view,CustomTokenObtainPairView
 
 
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView
 )

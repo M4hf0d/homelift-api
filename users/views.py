@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.views import APIView
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -40,7 +41,7 @@ def registration_view(request):
             account = serializer.save()
             
             data['response'] = "Registration Successful!"
-            data['username'] = account.username
+            data['phone_number'] = account.phone_number
             data['email'] = account.email
 
             # token = Token.objects.get(user=account).key
@@ -56,3 +57,10 @@ def registration_view(request):
             data = serializer.errors
         
         return Response(data, status=status.HTTP_201_CREATED)
+
+# class registration_view(APIView):
+#     def post(self, request):
+#         serializer = RegistrationSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)

@@ -20,4 +20,4 @@ class ApiOverviewAV(APIView):
         }
         return Response(api_urls)
     
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
