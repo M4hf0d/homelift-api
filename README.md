@@ -16,39 +16,57 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-## Authorization
-
-All API requests require the use of a generated API key. You can find your API key, or generate a new one, by navigating to the /settings endpoint, or clicking the “Settings” sidebar item.
-
-To authenticate an API request, you should provide your API key in the `Authorization` header.
-
-Alternatively, you may append the `api_key=[API_KEY]` as a GET parameter to authorize yourself to the API. But note that this is likely to leave traces in things like your history, if accessing the API through a browser.
-
+## Authentification
+ #### a) Registration
 ```http
-GET /api/campaigns/?api_key=12345678901234567890123456789012
+POST http://127.0.0.1:8000/account/register/
 ```
-
-| Parameter | Type | Description |
+in the Request Body : 
+| Key | Type | Description |
 | :--- | :--- | :--- |
-| `api_key` | `string` | **Required**. Your Gophish API key |
+| `email` | `string` | **Required** **Unique** The Users Email |
+| `phone_number` | `string` | **Required** **Unique**|
+| `password` | `string` | **Required**  |
+| `password2` | `string` | **Required** |
+| `username` | `string` |  |
+| `first_name` | `string` |  |
+| `last_name` | `string` |  |
+| `shipping_address` | `string` |  |
+| `payment_info` | `string` |  |
 
 ## Responses
 
-Many API endpoints return the JSON representation of the resources created or edited. However, if an invalid request is submitted, or some other error occurs, Gophish returns a JSON response in the following format:
+```javascript
+{
+  "response": "Registration Successful!",
+    "phone_number": Phone_Number,
+    "email": email,
+    "token": {
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+}
+```
+#### b) Login
+```http
+POST http://127.0.0.1:8000/account/api/token/
+```
+in the Request Body : 
+| Key | Type | 
+| :--- | :--- 
+| `email` | `string` 
+| `password` | `string` 
+
+## Responses
+
 
 ```javascript
 {
-  "message" : string,
-  "success" : bool,
-  "data"    : string
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
-The `message` attribute contains a message commonly used to indicate errors or, in the case of deleting a resource, success that the resource was properly deleted.
-
-The `success` attribute describes if the transaction was successful or not.
-
-The `data` attribute contains any other metadata associated with the response. This will be an escaped string containing JSON data.
 
 ## Status Codes
 
