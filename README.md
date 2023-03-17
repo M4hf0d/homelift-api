@@ -1,4 +1,6 @@
-# Ikea Api Clone:
+# HomeLift Api :
+
+## How to use: 
 Clone the Repo then :
 
 ```python
