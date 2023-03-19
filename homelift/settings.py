@@ -61,8 +61,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000"
 ]
 
-CORS_ALLOWED_ORIGINS_REGEXES = [
-    "http://localhost:3001",
+CORS_ORIGIN_WHITELIST = [
+     "http://localhost:3001",
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
