@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 
+
+
+
 class CostumerManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         # create and save a new user with given email and password
