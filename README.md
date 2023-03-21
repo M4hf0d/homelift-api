@@ -68,8 +68,8 @@ in the Request Body :
 | `email` | `string` | **Required** **Unique** The Users Email |
 | `phone_number` | `string` | **Required** **Unique**|
 | `password` | `string` | **Required**  |
+| `fullname` | `string` | **Required** |
 | `username` | `string` |  |
-| `fullname` | `string` |  |
 | `shipping_address` | `string` |  |
 | `payment_info` | `string` |  |
 
