@@ -12,8 +12,29 @@ source env/bin/activate
 pip install -r requirements.txt
 
 #Run the server 
-
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
+```
+
+#### a) View All Costumers
+```http
+GET http://127.0.0.1:8000/account/customer/
+```
+## Responses
+
+```javascript
+{
+  {
+        "id": n,
+        "username": username,
+        "fullname": fullname,
+        "email": ,
+        "phone_number": phone_number,
+        "shipping_address": shipping_address,
+        "payment_info": payment_info
+    }
+}
 ```
 
 ## Authentification
@@ -27,10 +48,8 @@ in the Request Body :
 | `email` | `string` | **Required** **Unique** The Users Email |
 | `phone_number` | `string` | **Required** **Unique**|
 | `password` | `string` | **Required**  |
-| `password2` | `string` | **Required** |
 | `username` | `string` |  |
-| `first_name` | `string` |  |
-| `last_name` | `string` |  |
+| `fullname` | `string` |  |
 | `shipping_address` | `string` |  |
 | `payment_info` | `string` |  |
 
