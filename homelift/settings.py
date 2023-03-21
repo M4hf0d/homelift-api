@@ -188,4 +188,4 @@ SIMPLE_JWT = {
     # 'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-AUTH_USER_MODEL = 'users.Costumer'
+AUTH_USER_MODEL = 'users.Customer'
