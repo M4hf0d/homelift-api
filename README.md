@@ -17,11 +17,31 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-#### a) View All Costumers
+### View All Costumers:
 ```http
 GET http://127.0.0.1:8000/account/customer/
 ```
-## Responses
+###### Responses
+
+```javascript
+{
+  {
+        "id": n,
+        "username": username,
+        "fullname": fullname,
+        "email": ,
+        "phone_number": phone_number,
+        "shipping_address": shipping_address,
+        "payment_info": payment_info
+    }
+}
+```
+
+### View  Costumer by ID:
+```http
+GET http://127.0.0.1:8000/account/customer/<id>/
+```
+###### Responses
 
 ```javascript
 {
