@@ -59,8 +59,8 @@ GET http://127.0.0.1:8000/account/customer/<id>/
     }
 }
 ```
-## Authentification : [Latest Version Old endpoints + New](https://djoser.readthedocs.io/en/latest/base_endpoints.html)
-## Authentification ( Old without verification) 
+## Authentification : [Latest Version Old endpoints + New](https://djoser.readthedocs.io/en/latest/base_endpoints.html) for staff
+## Authentification ( Old without verification)  for customers
  #### a) Registration
 ```http
 POST http://127.0.0.1:8000/account/register/
