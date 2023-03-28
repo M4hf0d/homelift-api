@@ -9,6 +9,12 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login
+from djoser.views import UserViewSet
+
+
+
 from .serializers import RegistrationSerializer,MyTokenObtainPairSerializer,CustomerSerializer
 
 from .models import Customer
@@ -66,3 +72,4 @@ class CustomerVS(mixins.ListModelMixin,
               viewsets.GenericViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+
