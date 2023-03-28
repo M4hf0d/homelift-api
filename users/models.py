@@ -47,7 +47,7 @@ class Customer(AbstractBaseUser):
     username = models.CharField(max_length=255, blank=True , null=True)
     fullname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    phone_number = models.CharField(max_length=20)
     shipping_address = models.TextField(blank=True, null=True)
     payment_info = models.TextField(blank=True, null=True)
     created = models.DateField(auto_now_add = True) #Create 
