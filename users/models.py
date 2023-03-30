@@ -54,7 +54,7 @@ class Customer(AbstractBaseUser):
     updated  = models.DateField(auto_now = True) #Update
 
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     # profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     # auth_provider = models.CharField(
