@@ -33,6 +33,7 @@ class CustomerManager(BaseUserManager):
             fullname=fullname,
             password=password,
         )
+        customer.is_active = True
         customer.is_admin = True
         customer.save(using=self._db)
         return customer
