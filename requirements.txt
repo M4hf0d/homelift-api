@@ -5,3 +5,4 @@ django-cors-headers
 djoser
 social-auth-app-django==4.0.0
 django-filter
+Pillow
