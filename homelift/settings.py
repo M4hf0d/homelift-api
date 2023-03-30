@@ -125,12 +125,15 @@ DATABASES = {
     }
 }
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'homelift.shop@gmail.com'
 EMAIL_HOST_PASSWORD = 'tsrmesslcpqcdlup'
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'homelift.shop@gmail.com'
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -204,8 +207,11 @@ AUTH_USER_MODEL = 'users.Customer'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-DJOSER = {
+
+ER = {
     'LOGIN_FIELD': 'email',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+
     # 'USER_CREATE_PASSWORD_RETYPE': True,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
