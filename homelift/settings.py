@@ -209,8 +209,8 @@ AUTH_USER_MODEL = 'users.Customer'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DOMAIN = 'localhost:3000'
-
 SITE_NAME = 'HomeLift'
+
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
@@ -233,4 +233,5 @@ DJOSER = {
     #     'current_user': 'accounts.serializers.UserCreateSerializer',
     #     'user_delete': 'djoser.serializers.UserDeleteSerializer',
     # }
+    #
 }
