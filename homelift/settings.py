@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "products",
     "users",
     'rest_framework_simplejwt',
-    'djoser',
+    "rest_framework.authtoken",
+    'djoser', 
 ]
 
 MIDDLEWARE = [
@@ -207,7 +208,9 @@ AUTH_USER_MODEL = 'users.Customer'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+DOMAIN = 'localhost:3000'
 
+SITE_NAME = 'HomeLift'
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
