@@ -30,8 +30,8 @@ class ProductSerializer(serializers.ModelSerializer):
     productComments = CommentsSerializer(many=True,read_only=True)
     productImages = ImagesSerializer(many=True,read_only=True)
     productRatings = RatingSerializer(many=True,read_only=True)
-    category_name = serializers.CharField(source='category.name')
-    subcategory_name = serializers.CharField(source='subcategory.name')
+    category_name = serializers.CharField(source='category.name',read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.name',read_only=True)
     
 
     

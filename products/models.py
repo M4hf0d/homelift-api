@@ -15,7 +15,7 @@ def upload_image_product_url(instance, filename):
 
 # Sort other images dirs of products
 def upload_other_images_product_url(instance, filename):
-    return f'products_app/api/images/{instance.productList.name}-product/images/{filename}'
+    return f'products_app/api/images/other-images/{filename}'
 
 
 
