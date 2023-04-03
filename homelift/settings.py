@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "users",
     'rest_framework_simplejwt',
     "rest_framework.authtoken",
+    'django_filters',
     'djoser', 
 ]
 
