@@ -10,12 +10,12 @@ from users.models import Customer
 
 # Sort default image dirs of products by name
 def upload_image_product_url(instance, filename):
-    return f'products_app/api/images/{instance.name}-product/images/default-image/{filename}'
+    return f'products/api/images/{instance.name}-product/images/default-image/{filename}'
 
 
 # Sort other images dirs of products
 def upload_other_images_product_url(instance, filename):
-    return f'products_app/api/images/other-images/{filename}'
+    return f'products/api/images/other-images/{filename}'
 
 
 
