@@ -52,7 +52,7 @@ class ImagesCreateAPIView(generics.CreateAPIView):
         productlist = Product.objects.get(pk=pk)
         image = ProductImage.objects.filter(productList=productlist)
         # image = ProductImage.objects.filter(productList=productlist,imge=self.request.data['image'])
-        if image.count() >=5:
+        if image.count() >= 5:
             raise ValidationError('u have already 5 images')
         productlist.save()
         serializer.save(productList=productlist)

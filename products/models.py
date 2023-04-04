@@ -10,12 +10,8 @@ from users.models import Customer
 
 # Sort default image dirs of products by name
 def upload_image_product_url(instance, filename):
-    return f'products/api/images/{instance.name}-product/images/default-image/{filename}'
+    return f'images/{filename}'
 
-
-# Sort other images dirs of products
-def upload_other_images_product_url(instance, filename):
-    return f'products/api/images/other-images/{filename}'
 
 
 
@@ -73,7 +69,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     
     productList = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='productImages')
-    image = models.ImageField(upload_to=upload_other_images_product_url)
+    image = models.ImageField(upload_to=upload_image_product_url, null=True, blank=True)
     class Meta:
         db_table = 'images'
     def save(self, *args, **kwargs):
