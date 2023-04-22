@@ -238,6 +238,7 @@ DJOSER = {
     #     'user_delete': 'djoser.serializers.UserDeleteSerializer',
     # }
     #
+    'BLACKLIST_AFTER_ROTATION': False,
 }
 
 MEDIA_URL = '/media/'
