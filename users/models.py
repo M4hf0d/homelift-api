@@ -35,6 +35,7 @@ class CustomerManager(BaseUserManager):
         )
         customer.is_active = True
         customer.is_admin = True
+        customer.role = 1
         customer.save(using=self._db)
         return customer
 
@@ -45,6 +46,7 @@ class CustomerManager(BaseUserManager):
 
 
 class Customer(AbstractBaseUser):
+    
     username = models.CharField(max_length=255, blank=True , null=True)
     fullname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -53,8 +55,18 @@ class Customer(AbstractBaseUser):
     payment_info = models.TextField(blank=True, null=True)
     created = models.DateField(auto_now_add = True) #Create 
     updated  = models.DateField(auto_now = True) #Update
-
-
+    GERANT = 1
+    STAFF = 2
+    CLIENT =3
+      
+    ROLE_CHOICES = (
+          (GERANT, 'Gerant'),
+          (STAFF, 'Staff'),
+          (CLIENT, 'Client'),
+      )
+    
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True, default=3)
+ 
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     # profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
@@ -81,7 +93,7 @@ class Customer(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.is_admin
+        return self.is_admin  
     
     @property
     def is_supersuser(self):
