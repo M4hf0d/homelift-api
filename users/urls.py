@@ -2,7 +2,8 @@ from django.urls import path,include
 
 from .views import (registration_view, logout_view,CustomTokenObtainPairView,CustomerVS,
                     RequestPasswordResetEmail,PasswordTokenCheckAPI,
-                    SetNewPasswordAPIView)
+                    SetNewPasswordAPIView,ProfileDetailsAV,StaffListAPIView,
+                    StaffCreateAPIView,StaffRetrieveUpdateDestroyAPIView)
 
 
 from rest_framework_simplejwt.views import (
@@ -31,4 +32,8 @@ urlpatterns = [
                                                              name='password_reset_confirm'),
     path('password-reset-complete/',SetNewPasswordAPIView.as_view(), name='password_reset_complete'),
     
+    path('<int:pk>/view-profile/',ProfileDetailsAV.as_view(), name='view_profile'),
+    path('staff-list/',StaffListAPIView.as_view(), name='staff-list'),
+    path('staff-list/add/',StaffCreateAPIView.as_view(), name='add-staff'),
+    path('staff-list/<int:pk>/',StaffRetrieveUpdateDestroyAPIView.as_view(), name='staff-details'),
 ]

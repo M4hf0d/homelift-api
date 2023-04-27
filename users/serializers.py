@@ -16,14 +16,14 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'fullname', 'email', 'phone_number',
-                  'shipping_address', 'payment_info']
+                  'shipping_address', 'payment_info','role']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-
+    
     class Meta:
         model = Customer
-        fields = [ 'fullname','phone_number', 'username','email', 'password','shipping_address','payment_info']
+        fields = ['fullname','phone_number', 'username','email', 'password','shipping_address','payment_info','role']
         extra_kwargs = {
             'password' : {'write_only': True}
         }
@@ -33,6 +33,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         password = self.validated_data['password']
         fullname = self.validated_data['fullname']
+        
 
         if Customer.objects.filter(email=self.validated_data['email']).exists():
             raise serializers.ValidationError({'error': 'Email already exists!'})
@@ -41,12 +42,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if Customer.objects.filter(phone_number=self.validated_data['phone_number']).exists():
             raise serializers.ValidationError({'error': 'Phone Number already exists!'})
 
-        account = Customer(email=self.validated_data['email'], phone_number=self.validated_data['phone_number'], fullname = fullname)
+        account = Customer(email=self.validated_data['email'], phone_number=self.validated_data['phone_number'], fullname = fullname )
         account.set_password(password)
         account.save()
 
         return account
-    
+ 
+   
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -60,43 +62,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-# Password_reset_serializers
 
 class RequestPasswordResetEmailSerializer(serializers.Serializer):
     email=serializers.EmailField(min_length=2)
     
     class Meta :
         fields=['email']
-        
-    # def validate(self, attrs):
-            # email = attrs['data'].get('email','')
-            # if Customer.objects.filter(email=email).exists():
-            #     user = Customer.objects.get(email=email)
-            #     uidb64 = urlsafe_base64_encode(user.id)
-            #     token = PasswordResetTokenGenerator().make_token(user)
-            #     current_site = get_current_site( 
-            #                          request=attrs['data'].get('request')).domain
-            #     relativeLink = reverse(
-            #         'password_reset_confirm',kwargs={'uidb64':uidb64 , 'token':token})
-            #     absurl = 'https://'+current_site+relativeLink
-            #     email_body = 'Hi'+Customer.fullname+'Use the link below so you can reset your password \n' + absurl
-            #     data={'email_body': email_body,
-            #           'to_email': user.email,
-            #           'email_subject':'Verify your email'}
-                
-            #     Util.send_email(data)
-            
-            # return super().validate(attrs)
     
 class SetNewPasswordSerializer (serializers.Serializer):
     password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -124,3 +95,10 @@ class SetNewPasswordSerializer (serializers.Serializer):
             
         return super().validate(attrs)
     
+
+
+# class ProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Customer
+#         fields = ['username', 'fullname', 'email', 'phone_number',
+#                   'shipping_address', 'payment_info']

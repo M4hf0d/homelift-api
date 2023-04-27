@@ -5,8 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
 from rest_framework import mixins,viewsets
 from rest_framework import generics
-
-
+from rest_framework.generics import RetrieveUpdateDestroyAPIView,ListAPIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -14,22 +13,23 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login
 from djoser.views import UserViewSet
-
-
-
-from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
-                          CustomerSerializer,RequestPasswordResetEmailSerializer,
-                          SetNewPasswordSerializer)
-
-from .models import Customer
-
-from .utils import Util 
-
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str,force_str,smart_bytes,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+
+
+from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
+                          CustomerSerializer,RequestPasswordResetEmailSerializer,
+                          SetNewPasswordSerializer,)
+                        #   ProfileSerializer)
+
+from .models import Customer
+
+from .utils import Util 
+
+
 
 
 
@@ -64,7 +64,8 @@ def registration_view(request):
             
             data['response'] = "Registration Successful!"
             data['phone_number'] = account.phone_number
-            data['email'] = account.email   
+            data['email'] = account.email
+            data['role'] = account.role   
 
             # token = Token.objects.get(user=account).key
             # data['token'] = token
@@ -86,8 +87,6 @@ class CustomerVS(mixins.ListModelMixin,
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     
-
-# Reset_password_views
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
     
@@ -141,14 +140,47 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                 return Response({'error' : 'Token is not valid, please request a new one.'})
             
             
-
-
 class SetNewPasswordAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
-    
     def put (self,request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True,'message':'Password Reset Success'}, 
                         status=status.HTTP_200_OK)
 
+
+class ProfileDetailsAV(APIView):
+    # permission_classes = [IsAuthenticated]
+    def get(self, request,pk):
+        try:
+           user_profile = Customer.objects.get(pk=pk)
+        except  Customer.DoesNotExist:
+           return Response({'error':'User Not Found'},status=status.HTTP_404_NOT_FOUND)
+        serializer=CustomerSerializer(user_profile)
+        return Response(serializer.data)
+    def put(self,request,pk):
+        user_profile=Customer.objects.get(pk=pk)
+        serializer=CustomerSerializer(user_profile,data=request.data)
+        if serializer.is_valid():
+           serializer.save()
+           return Response(serializer.data)
+        else:
+           return Response(serializer.errors)       
+ 
+        
+class StaffListAPIView(generics.ListAPIView):
+    serializer_class = RegistrationSerializer
+    def get_queryset(self):
+        return Customer.objects.filter(role=Customer.STAFF)
+
+    
+class StaffCreateAPIView(generics.CreateAPIView):
+    serializer_class = CustomerSerializer
+    queryset = Customer.objects.filter(role=Customer.STAFF)
+    def perform_create(self,serializer):
+        serializer.save(role=Customer.STAFF)   
+
+        
+class StaffRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Customer
+    serializer_class = CustomerSerializer
