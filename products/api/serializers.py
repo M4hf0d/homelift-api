@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Product , Category ,ProductRating , ProductImage , SubCategory , ProductComment
+from ..models import Product , Category ,ProductRating , ProductImage ,ArchivedProduct, SubCategory , ProductComment
  
  
  
@@ -16,6 +16,7 @@ class RatingSerializer(serializers.ModelSerializer):
         model = ProductRating
         # fields = "__all__"
         exclude = ['productList']
+        
 
         
  
@@ -40,10 +41,19 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # exclude = ['rating_rv','rating_nb']
         
+
+
+class ArchivedProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name',read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.name',read_only=True)
+    class Meta:
+        model = ArchivedProduct
+        fields = '__all__'
+
+
         
 class SubCategorySerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True,read_only=True)
-    
+    products = ProductSerializer(many=True,read_only=True)    
     class Meta:
         model = SubCategory
         # fields = ['id','name','products']

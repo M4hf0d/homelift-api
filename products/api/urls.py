@@ -4,11 +4,12 @@ from .views import (ProductViewSet , CategoryViewSet , SubCategoryListAPIView,
                     SubCategoryCreateAPIView,SubCategoryRetrieveUpdateDestroyAPIView ,ImagesListAPIView ,
                     ImagesRetrieveUpdateDestroyAPIView , CommentsListAPIView , CommentsCreateAPIView ,
                     CommentsRetrieveUpdateDestroyAPIView, ImagesCreateAPIView,RatingListAPIView,
-                    RatingCreateAPIView,RatingRetrieveUpdateDestroyAPIView )
+                    RatingCreateAPIView,RatingRetrieveUpdateDestroyAPIView ,ArchivedProductViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
 router.register(r'categories',CategoryViewSet)
+router.register(r'products-archived', ArchivedProductViewSet)
 
 
 urlpatterns = [

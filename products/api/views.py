@@ -1,5 +1,6 @@
 from rest_framework import status,generics,mixins,viewsets
   #filters
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView ,RetrieveUpdateDestroyAPIView
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import NotFound , ValidationError
@@ -10,7 +11,7 @@ from rest_framework.filters import SearchFilter
 
 
 from ..models import Product , Category , SubCategory , ProductImage , ProductRating , ProductComment
-from .serializers import ProductSerializer ,CategorySerializer , SubCategorySerializer , ImagesSerializer , RatingSerializer , CommentsSerializer
+from .serializers import ProductSerializer,ArchivedProductSerializer ,CategorySerializer , SubCategorySerializer , ArchivedProduct,ImagesSerializer , RatingSerializer , CommentsSerializer
 from .filter import ProductFilter
 
 
@@ -21,14 +22,69 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend,SearchFilter]
     filterset_class = ProductFilter
     search_fields = ['name','description','category__name', 'subcategory__name']
-
     
+    
+    
+    def create(self, request, *args, **kwargs):
+        # check if a product with the same name already exists
+        name = request.data.get('name')
+        if Product.objects.filter(name=name).exists():
+            raise ValidationError("A product with the same name already exists.")
+
+        # create the new product
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()  # get the Product instance to be deleted
+        print(instance)
+
+        # create a new ArchivedProduct object with the same attributes as the deleted product
+        
+        archived_product = ArchivedProduct(     
+            name = instance.name,
+            image = instance.image,
+            subcategory =instance.subcategory,
+            category = instance.category,
+            price = instance.price,
+            description = instance.description,
+            rating_rv= instance.rating_rv,
+            rating_nb= instance.rating_nb,
+            # comment = instance.productComments,
+            # image_list = instance.productImages,
+            # ratings = instance.productRatings,
+            
+            )
+        archived_product.save()
+
+        # delete the product from the database
+        instance.delete()
+        return Response("delete it and archived ",status=status.HTTP_204_NO_CONTENT)
+
+class ArchivedProductViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ArchivedProduct.objects.all()
+    serializer_class = ArchivedProductSerializer   
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    def create(self, request, *args, **kwargs):
+        # check if a product with the same name already exists
+        name = request.data.get('name')
+        if Category.objects.filter(name=name).exists():
+            raise ValidationError("A product with the same name already exists.")
 
+        # create the new product
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 
