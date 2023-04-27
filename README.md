@@ -88,7 +88,7 @@ in the Request Body :
 
  ##### a) CRUD Product 
 ```http
-POST 127.0.0.1:8000/homeLift/products/
+POST http://127.0.0.1:8000/homeLift/products/
 ```
 in the Request Body : 
 | Key | Type | Description |
