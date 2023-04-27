@@ -26,7 +26,8 @@ SECRET_KEY = "django-insecure-lqwfb$izok43+vfv%tt8&)02rx58-$l&wb=wvomp-k3qrj!pup
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [    'localhost',    '127.0.0.1',    'example.com',    'homelift-api-production.up.railway.app']
+
 
 
 # Application definition
