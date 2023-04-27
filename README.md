@@ -4,7 +4,7 @@
 - [Installation](#How-to-use:)
 - [Usage](#usage)
   * [Authentification](#Authentification)
-  * [Product, (sub)categories ..](#Product)
+  * [Product, (sub)categories ..](#product-)
   * [Configuration](#configuration)
 - [Contributing](#contributing)
 - [Credits](#credits)
