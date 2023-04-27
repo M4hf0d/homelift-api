@@ -1,4 +1,14 @@
 # HomeLift Api :
+## Table of Contents
+
+- [Installation](#How-to-use:)
+- [Usage](#usage)
+  * [Authentification](#Authentification)
+  * [Product, (sub)categories ..](#Product)
+  * [Configuration](#configuration)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 ## How to use: 
 Clone the Repo then :
@@ -19,49 +29,11 @@ python manage.py createsuperuser #optional
 
 python manage.py runserver
 ```
+## Usage :
 
-### View All Costumers:
-```http
-GET http://127.0.0.1:8000/account/customer/
-```
-###### Responses
-
-```javascript
-{
-  {
-        "id": n,
-        "username": username,
-        "fullname": fullname,
-        "email": ,
-        "phone_number": phone_number,
-        "shipping_address": shipping_address,
-        "payment_info": payment_info
-    }
-}
-```
-
-### View  Costumer by ID:
-```http
-GET http://127.0.0.1:8000/account/customer/<id>/
-```
-###### Responses
-
-```javascript
-{
-  {
-        "id": n,
-        "username": username,
-        "fullname": fullname,
-        "email": ,
-        "phone_number": phone_number,
-        "shipping_address": shipping_address,
-        "payment_info": payment_info
-    }
-}
-```
-## Authentification : [Latest Version Old endpoints + New](https://djoser.readthedocs.io/en/latest/base_endpoints.html) for staff
-## Authentification ( Old without verification)  for customers
- #### a) Registration
+### Authentification : [Latest Version Old endpoints + New](https://djoser.readthedocs.io/en/latest/base_endpoints.html) for staff
+ ### Authentification ( Old without verification)  for customers
+ ##### a) Registration
 ```http
 POST http://127.0.0.1:8000/account/register/
 ```
@@ -110,15 +82,29 @@ in the Request Body :
 ```
 
 
-## Status Codes
 
-Gophish returns the following status codes in its API:
 
-| Status Code | Description |
-| :--- | :--- |
-| 200 | `OK` |
-| 201 | `CREATED` |
-| 400 | `BAD REQUEST` |
-| 404 | `NOT FOUND` |
-| 500 | `INTERNAL SERVER ERROR` |
+ ### Product :
 
+ ##### a) CRUD Product 
+```http
+POST 127.0.0.1:8000/homeLift/products/
+```
+in the Request Body : 
+| Key | Type | Description |
+| :--- | :--- | :--- |
+| `email` | `string` | **Required** **Unique** The Users Email |
+| `phone_number` | `string` | **Required** **Unique**|
+| `password` | `string` | **Required**  |
+| `fullname` | `string` | **Required** |
+| `username` | `string` |  |
+| `shipping_address` | `string` |  |
+| `payment_info` | `string` |  |
+
+## Responses
+
+```javascript
+{
+
+}
+```
