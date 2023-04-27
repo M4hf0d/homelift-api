@@ -3,7 +3,7 @@
 
 - [Installation](#How-to-use:)
 - [Usage](#usage)
-  * [Authentification](#Authentification)
+  * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
   * [Product, (sub)categories ..](#product-)
   * [Configuration](#configuration)
 - [Contributing](#contributing)
