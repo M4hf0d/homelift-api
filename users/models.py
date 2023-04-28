@@ -97,7 +97,7 @@ class Customer(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.role ==  2
+        return self.role ==  2 or self.role == 1
     
     @property
     def is_supersuser(self):
