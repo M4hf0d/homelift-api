@@ -26,6 +26,7 @@ from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
                         #   ProfileSerializer)
 
 from .models import Customer
+from homelift.settings import DOMAIN
 
 from .utils import Util 
 
@@ -104,7 +105,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
                                      request=request).domain
                 relativeLink = reverse(
                     'password_reset_confirm',kwargs={'uidb64':uidb64 , 'token':token})
-                absurl = 'http://'+current_site+relativeLink
+                absurl = 'http://'+DOMAIN+relativeLink
                 email_body = 'Use the link below so you can reset your password \n' + absurl
                 data={'email_body': email_body,
                       'to_email': user.email,

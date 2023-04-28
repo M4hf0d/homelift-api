@@ -225,6 +225,7 @@ DOMAIN = 'localhost:3000'
 SITE_NAME = 'HomeLift'
 
 DJOSER = {
+
     'LOGIN_FIELD': 'email',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
 
