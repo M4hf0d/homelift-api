@@ -58,7 +58,7 @@ class Customer(AbstractBaseUser):
     GERANT = 1
     STAFF = 2
     CLIENT =3
-      
+    blocked = models.BooleanField(default = False) 
     ROLE_CHOICES = (
           (GERANT, 'Gerant'),
           (STAFF, 'Staff'),

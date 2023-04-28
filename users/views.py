@@ -82,11 +82,11 @@ def registration_view(request):
         
         return Response(data, status=status.HTTP_201_CREATED)
 
-class CustomerVS(mixins.ListModelMixin,
-              mixins.RetrieveModelMixin,
-              viewsets.GenericViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
+# class CustomerVS(mixins.ListModelMixin,
+#               mixins.RetrieveModelMixin,
+#               viewsets.GenericViewSet):
+#     queryset = Customer.objects.all()
+#     serializer_class = CustomerSerializer
     
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
@@ -170,18 +170,38 @@ class ProfileDetailsAV(APIView):
  
         
 class StaffListAPIView(generics.ListAPIView):
-    serializer_class = RegistrationSerializer
+    serializer_class = CustomerSerializer
     def get_queryset(self):
-        return Customer.objects.filter(role=Customer.STAFF)
+        return Customer.objects.filter(role=Customer.STAFF).order_by('-blocked')
 
     
 class StaffCreateAPIView(generics.CreateAPIView):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.filter(role=Customer.STAFF)
     def perform_create(self,serializer):
-        serializer.save(role=Customer.STAFF)   
+        serializer.save(role=Customer.STAFF)  
+
+
 
         
 class StaffRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Customer
     serializer_class = CustomerSerializer
+     
+        
+class CustomerListAPIView(generics.ListAPIView):
+    serializer_class = CustomerSerializer
+    def get_queryset(self):
+        return Customer.objects.filter(role=Customer.CLIENT).order_by('-blocked')
+
+        
+class CustomerRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Customer
+    serializer_class = CustomerSerializer
+
+
+class BlockedUsers(generics.ListAPIView):
+    serializer_class = CustomerSerializer
+    queryset = Customer.objects.all().filter(blocked = True)
+
+

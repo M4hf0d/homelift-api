@@ -1,9 +1,6 @@
 from django.urls import path,include
 
-from .views import (registration_view, logout_view,CustomTokenObtainPairView,CustomerVS,
-                    RequestPasswordResetEmail,PasswordTokenCheckAPI,
-                    SetNewPasswordAPIView,ProfileDetailsAV,StaffListAPIView,
-                    StaffCreateAPIView,StaffRetrieveUpdateDestroyAPIView)
+from .views import *
 
 
 from rest_framework_simplejwt.views import (
@@ -14,7 +11,6 @@ from rest_framework_simplejwt.views import (
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
-router.register('customer', CustomerVS, basename='customer')
 
 urlpatterns = [
     # path('login/', obtain_auth_token, name='login'),
@@ -25,6 +21,9 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('', include(router.urls)),
+
+
+
     
     
     path('request-reset-email/',RequestPasswordResetEmail.as_view(), name='request_reset_email'),
@@ -36,4 +35,11 @@ urlpatterns = [
     path('staff-list/',StaffListAPIView.as_view(), name='staff-list'),
     path('staff-list/add/',StaffCreateAPIView.as_view(), name='add-staff'),
     path('staff-list/<int:pk>/',StaffRetrieveUpdateDestroyAPIView.as_view(), name='staff-details'),
+
+    path('customer-list/',CustomerListAPIView.as_view(), name='customer-list'),
+    path('customer-list/<int:pk>/',CustomerRetrieveUpdateDestroyAPIView.as_view(), name='customer-details'),
+
+    path('blocked/',CustomerListAPIView.as_view(), name='blocked-users-list'),
+
+
 ]

@@ -16,7 +16,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'fullname', 'email', 'phone_number',
-                  'shipping_address', 'payment_info','role']
+                  'shipping_address', 'payment_info','role','blocked']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -58,6 +58,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email 
         token['phone_number'] = user.phone_number 
         token['fullname'] = user.fullname 
+        token['id'] = user.id
+        token['role'] = user.role
+        token['blocked'] = user.blocked
         return token
     
 
