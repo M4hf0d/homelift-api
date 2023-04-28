@@ -8,9 +8,8 @@
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
   * [Users Managemet](#users-management)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
+- [Notes](#users-management)
+
 
 ## How to use: 
 Clone the Repo then :
