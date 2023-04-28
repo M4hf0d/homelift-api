@@ -1,7 +1,7 @@
 # HomeLift Api :
 ## Table of Contents
 
-- [Installation](#How-to-use:)
+- [Installation](#how-to-use)
 - [Usage](#usage)
   * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
   * [Products & Archiving](#product-)
