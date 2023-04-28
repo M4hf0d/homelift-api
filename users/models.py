@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
-
+from rest_framework.authtoken.models import Token
 
 class CustomerManager(BaseUserManager):
     def create_user(self, email, phone_number, fullname, password=None):
@@ -44,6 +44,9 @@ class CustomerManager(BaseUserManager):
 # AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 #                   'twitter': 'twitter', 'email': 'email'}
 
+def upload_profile_image_url(instance, filename):
+    return f'profile_pitures/{filename}'
+
 
 class Customer(AbstractBaseUser):
     
@@ -69,7 +72,7 @@ class Customer(AbstractBaseUser):
  
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    # profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to=upload_profile_image_url, blank=True, null=True, default='profile_pitures/closef.jpg')
     # auth_provider = models.CharField(
     #     max_length=255, blank=False,
     #     null=False, default=AUTH_PROVIDERS.get('email'))
@@ -79,6 +82,7 @@ class Customer(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'   # Auth with EmailField
     REQUIRED_FIELDS=['phone_number','fullname']
+
     def has_perm(self, perm, obj=None):
             "Does the user have a specific permission?"
             # Simplest possible answer: Yes, always
@@ -93,11 +97,10 @@ class Customer(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.is_admin  
+        return self.role ==  2
     
     @property
     def is_supersuser(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
-    

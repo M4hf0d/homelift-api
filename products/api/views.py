@@ -30,15 +30,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-
-
-
-
-
-
-
-
-
 class ImagesRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = ProductImage.objects.all()
     serializer_class = ImagesSerializer

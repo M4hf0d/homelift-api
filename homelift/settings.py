@@ -200,7 +200,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.MyTokenObtainPairSerializer"
+    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.MyTokenObtainPairSerializer",
     # 'BLACKLIST_AFTER_ROTATION': True,
     # 'ALGORITHM': 'HS256',
     # 'SIGNING_KEY': settings.SECRET_KEY,
@@ -245,11 +245,13 @@ DJOSER = {
         # 'user_create': 'accounts.serializers.UserCreateSerializer',
         # 'user': 'accounts.serializers.UserCreateSerializer',
         'current_user': 'users.serializers.CustomerSerializer',
+         'token': 'path.to.CustomTokenSerializer',
         # 'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
     #
     'BLACKLIST_AFTER_ROTATION': False,
 }
+
 
 STATIC_URL = "static/"
 STATIC_ROOT =BASE_DIR / 'staticfiles'

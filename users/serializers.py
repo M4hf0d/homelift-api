@@ -16,7 +16,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'fullname', 'email', 'phone_number',
-                  'shipping_address', 'payment_info','role','blocked']
+                  'shipping_address', 'payment_info','role','blocked','profile_picture']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -63,6 +63,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['blocked'] = user.blocked
         return token
     
+from djoser.serializers import TokenSerializer
+
+class CustomTokenSerializer(TokenSerializer):
+    blocked = serializers.BooleanField()
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.context['user']
+        data['blocked'] = user.blocked
+        return data
 
     
 
