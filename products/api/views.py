@@ -151,7 +151,3 @@ class SubCategoryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
     
-
-class ArchivedProducts(ListAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all().filter(archived = True)

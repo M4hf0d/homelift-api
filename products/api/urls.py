@@ -30,7 +30,6 @@ urlpatterns = [
     path('products/rating/<int:pk>/',RatingRetrieveUpdateDestroyAPIView.as_view(), name='rating-detail'),
 
 
-    path('products/archived/', ArchivedProducts.as_view(), name='Archived-Products'),
 
 
 ]
