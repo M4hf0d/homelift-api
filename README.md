@@ -7,6 +7,7 @@
   * [Products & Archiving](#product-)
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
+  * [Users Managemet](#users-management)
 - [Contributing](#contributing)
 - [Credits](#credits)
 - [License](#license)
