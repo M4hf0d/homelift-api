@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models import Product , Category ,ProductRating , ProductImage , SubCategory , ProductComment
- 
+from rest_framework.validators import UniqueValidator
  
  
 class ImagesSerializer(serializers.ModelSerializer):
@@ -32,13 +32,28 @@ class ProductSerializer(serializers.ModelSerializer):
     productRatings = RatingSerializer(many=True,read_only=True)
     category_name = serializers.CharField(source='category.name',read_only=True)
     subcategory_name = serializers.CharField(source='subcategory.name',read_only=True)
-    
-
-    
+    in_stock = serializers.BooleanField(read_only=True)
     class Meta:
         model = Product
         fields = "__all__"
         # exclude = ['rating_rv','rating_nb']
+        extra_kwargs = {
+            'name': {
+                'validators': [
+                    UniqueValidator(
+                        queryset=Product.objects.all()
+                    )
+                ]
+            }
+        }
+    def validate(self, data):
+        if data['price'] < 0:
+            raise serializers.ValidationError("Price cannot be negative")
+        if data['quantity'] < 0:
+            raise serializers.ValidationError("Quantity cannot be negative")
+        
+        return data
+    
         
         
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -48,6 +63,16 @@ class SubCategorySerializer(serializers.ModelSerializer):
         model = SubCategory
         # fields = ['id','name','products']
         exclude = ['categoryList']
+        extra_kwargs = {
+            'name': {
+                'validators': [
+                    UniqueValidator(
+                        queryset=SubCategory.objects.all()
+                    )
+                ]
+            }
+        }
+
         
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -55,3 +80,12 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+        extra_kwargs = {
+            'name': {
+                'validators': [
+                    UniqueValidator(
+                        queryset=Category.objects.all()
+                    )
+                ]
+            }
+        }

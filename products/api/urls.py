@@ -1,11 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import (ProductViewSet , CategoryViewSet , SubCategoryListAPIView,
-                    SubCategoryCreateAPIView,SubCategoryRetrieveUpdateDestroyAPIView ,ImagesListAPIView ,
-                    ImagesRetrieveUpdateDestroyAPIView , CommentsListAPIView , CommentsCreateAPIView ,
-                    CommentsRetrieveUpdateDestroyAPIView, ImagesCreateAPIView,RatingListAPIView,
-                    RatingCreateAPIView,RatingRetrieveUpdateDestroyAPIView )
-
+from .views import *
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
 router.register(r'categories',CategoryViewSet)
@@ -33,4 +28,9 @@ urlpatterns = [
     path('products/<int:pk>/rating/', RatingListAPIView.as_view(), name='rating-list'),
     path('products/<int:pk>/rating-create/', RatingCreateAPIView.as_view(), name='rating-create'),
     path('products/rating/<int:pk>/',RatingRetrieveUpdateDestroyAPIView.as_view(), name='rating-detail'),
+
+
+    path('products/archived/', ArchivedProducts.as_view(), name='Archived-Products'),
+
+
 ]

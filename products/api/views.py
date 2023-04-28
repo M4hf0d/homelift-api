@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import NotFound , ValidationError
 from rest_framework.status import HTTP_404_NOT_FOUND
 import django_filters.rest_framework as filters
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter,OrderingFilter
 
 
 
@@ -18,10 +18,10 @@ from .filter import ProductFilter
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [filters.DjangoFilterBackend,SearchFilter]
+    filter_backends = [filters.DjangoFilterBackend,SearchFilter,OrderingFilter]
     filterset_class = ProductFilter
     search_fields = ['name','description','category__name', 'subcategory__name']
-
+    ordering_fields = ['name', 'price','quantity']
     
 
 
@@ -152,3 +152,6 @@ class SubCategoryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = SubCategorySerializer
     
 
+class ArchivedProducts(ListAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all().filter(archived = True)

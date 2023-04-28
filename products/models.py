@@ -53,11 +53,12 @@ class Product(models.Model):
                        validators=[MaxValueValidator(1000000000.00),MinValueValidator(0)])
     description = models.TextField(blank=True)
     quantity = models.PositiveIntegerField(default=0)
-    in_stock = models.BooleanField(default=False)
+    # in_stock = models.BooleanField(default=False)
     rating_rv= models.FloatField(default=0)
     rating_nb= models.PositiveIntegerField(default=0)    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    archived = models.BooleanField(default = False)
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):
@@ -65,7 +66,12 @@ class Product(models.Model):
         self.category = self.subcategory.categoryList
 
         super(Product, self).save(*args, **kwargs)
-
+    
+    @property
+    def in_stock(self):
+        return self.quantity > 0
+    
+    
 class ProductImage(models.Model):
     
     productList = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='productImages')
