@@ -1,7 +1,7 @@
 # HomeLift Api :
 ## Table of Contents
 
-- [Installation](#How-to-use:)
+- [Installation](#how-to-use)
 - [Swagger API Documentation](#swagger-more-in-depth-api-documentation-)
 - [Usage](#usage)
   * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
@@ -18,7 +18,7 @@
 
 ```http
 GET http://127.0.0.1:8000/swagger/
-GET ttp://127.0.0.1:8000/redoc/
+GET http://127.0.0.1:8000/redoc/
 
 ```
 ## How to use: 
