@@ -2,7 +2,7 @@
 ## Table of Contents
 
 - [Installation](#How-to-use:)
-- [Swagger API Documentation](#)
+- [Swagger API Documentation](#swagger-more-in-depth-api-documentation-)
 - [Usage](#usage)
   * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
   * [Products & Archiving](#product-)
@@ -17,8 +17,8 @@
 **Visit:** 
 
 ```http
-http://127.0.0.1:8000/swagger/
-http://127.0.0.1:8000/redoc/
+GET http://127.0.0.1:8000/swagger/
+GET ttp://127.0.0.1:8000/redoc/
 ```
 ## How to use: 
 Clone the Repo then :
