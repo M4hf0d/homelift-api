@@ -19,6 +19,7 @@
 ```http
 GET http://127.0.0.1:8000/swagger/
 GET ttp://127.0.0.1:8000/redoc/
+
 ```
 ## How to use: 
 Clone the Repo then :
