@@ -1,16 +1,25 @@
 # HomeLift Api :
 ## Table of Contents
 
-- [Installation](#how-to-use)
+- [Installation](#How-to-use:)
+- [Swagger API Documentation](#)
 - [Usage](#usage)
   * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
   * [Products & Archiving](#product-)
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
-  * [Users Managemet](#users-management)
-- [Notes](#users-management)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 
+### **Swagger** More in depth Api Documentation :
+**Visit:** 
+
+```http
+http://127.0.0.1:8000/swagger/
+http://127.0.0.1:8000/redoc/
+```
 ## How to use: 
 Clone the Repo then :
 
@@ -23,8 +32,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 #Run the server 
-python manage.py makemigrations users
-python manage.py makemigrations products
+python manage.py makemigrations
 python manage.py migrate
 
 python manage.py createsuperuser #optional
@@ -353,159 +361,5 @@ HTTP 201 Created
     "name": New-Name
 }
 ```
-## Users Management
-### View And Edit Profile
-###### 1)view profile:
-```http
-  GET http://127.0.0.1:8000/account/${id}/view-profile/
-```
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": role_id,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-###### 2)edit profile:
-```http
-  PUT http://127.0.0.1:8000/account/${id}/view-profile/
-```
-| Key | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` |    |
-| `fullname`      | `string` | **Required**(not necessarily modified) |
-| `email`      | `string` | **Required** (not necessarily modified)|
-| `phone_number`      | `string` | **Required** (not necessarily modified)|
-| `shipping_address`      | `string` |  |
-| `payment_info`      | `string` | |
-| `profile_picture`      | `picture` | |
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": role_id,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-### View Staff List
-```http
-  GET http://127.0.0.1:8000/account/staff-list/
-```
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": role_id,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-### Add Staff
-```http
-  POST http://127.0.0.1:8000/account/staff-list/add/
-```
-| Key | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` |    |
-| `fullname`      | `string` | **Required** |
-| `email`      | `string` | **Required Unique**|
-| `phone_number`      | `string` | **Required Unique**|
-| `shipping_address`      | `string` |  |
-| `payment_info`      | `string` | |
-| `profile_picture`      | `picture` | |
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": 2,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-### RetrieveUpdateDelete Staff 
-###### 1)Retrieve:
-```http
-  GET http://127.0.0.1:8000/account/staff-list/${id}/
-```
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": 2,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-###### 2)Update:
-```http
-  PUT http://127.0.0.1:8000/account/staff-list/${id}/
-```
-| Key | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` |    |
-| `fullname`      | `string` | **Required**(not necessarily modified) |
-| `email`      | `string` | **Required** (not necessarily modified)|
-| `phone_number`      | `string` | **Required** (not necessarily modified)|
-| `shipping_address`      | `string` |  |
-| `payment_info`      | `string` | |
-| `profile_picture`      | `picture` | |
-#### Responses
-```javascript
-{
-    "id": id,
-    "username": username,
-    "fullname": fullname,
-    "email": email,
-    "phone_number": phone_number,
-    "shipping_address": shipping_address,
-    "payment_info":payment_info ,
-    "role": 2,
-    "blocked": True or False,
-    "profile_picture": profile picture
-}
-```
-###### 3)Delete:
-```http
-Delete http://127.0.0.1:8000/account/staff-list/${id}/
-```
-# Notes:
-#### Roles:
-| id | Role     | 
-| :-------- | :------- | 
-| `Admin`      | `1` |
-| `Staff`      | `2` |
-| `Client`      | `3` |
+
 
