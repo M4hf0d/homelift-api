@@ -2,15 +2,26 @@
 ## Table of Contents
 
 - [Installation](#how-to-use)
+- [Swagger API Documentation](#swagger-more-in-depth-api-documentation-)
 - [Usage](#usage)
   * [Authentification](#authentification--latest-version-old-endpoints--new-for-staff)
   * [Products & Archiving](#product-)
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
-  * [Users Managemet](#users-management)
-- [Notes](#users-management)
+  * [Users Management](#users-management)
+- [Notes](#notes)
 
 
+
+
+### **Swagger** More in depth Api Documentation :
+**Visit:**   
+
+```http
+GET http://127.0.0.1:8000/swagger/
+GET http://127.0.0.1:8000/redoc/
+
+```
 ## How to use: 
 Clone the Repo then :
 
@@ -23,8 +34,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 #Run the server 
-python manage.py makemigrations users
-python manage.py makemigrations products
+python manage.py makemigrations
 python manage.py migrate
 
 python manage.py createsuperuser #optional
@@ -353,7 +363,59 @@ HTTP 201 Created
     "name": New-Name
 }
 ```
-## Users Management
+
+### View Customer List
+```http
+  GET http://127.0.0.1:8000/account/customer-list/
+```
+#### Responses
+```javascript
+{
+    "id": id,
+    "username": username,
+    "fullname": fullname,
+    "email": email,
+    "phone_number": phone_number,
+    "shipping_address": shipping_address,
+    "payment_info":payment_info ,
+    "role": role_id,
+    "blocked": True or False,
+    "profile_picture": profile picture
+}
+```
+
+### RetrieveUpdateDelete Customer (you can Block here)
+```http
+http://127.0.0.1:8000/account/customer-list/<int:pk>/
+```
+| Key | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `username`      | `string` |    |
+| `fullname`      | `string` | **Required**(not necessarily modified) |
+| `email`      | `string` | **Required** (not necessarily modified)|
+| `phone_number`      | `string` | **Required** (not necessarily modified)|
+| `shipping_address`      | `string` |  |
+| `payment_info`      | `string` | |
+| `profile_picture`      | `picture` | |
+
+#### Responses
+```javascript
+{
+    "id": id,
+    "username": username,
+    "fullname": fullname,
+    "email": email,
+    "phone_number": phone_number,
+    "shipping_address": shipping_address,
+    "payment_info":payment_info ,
+    "role": 2,
+    "blocked": True or False,
+    "profile_picture": profile picture
+}
+```
+
+
+
 ### View And Edit Profile
 ###### 1)view profile:
 ```http
@@ -387,6 +449,7 @@ HTTP 201 Created
 | `shipping_address`      | `string` |  |
 | `payment_info`      | `string` | |
 | `profile_picture`      | `picture` | |
+
 #### Responses
 ```javascript
 {
@@ -434,6 +497,7 @@ HTTP 201 Created
 | `shipping_address`      | `string` |  |
 | `payment_info`      | `string` | |
 | `profile_picture`      | `picture` | |
+
 #### Responses
 ```javascript
 {
@@ -449,7 +513,7 @@ HTTP 201 Created
     "profile_picture": profile picture
 }
 ```
-### RetrieveUpdateDelete Staff 
+### RetrieveUpdateDelete Staff (you can Block here)
 ###### 1)Retrieve:
 ```http
   GET http://127.0.0.1:8000/account/staff-list/${id}/
@@ -471,7 +535,7 @@ HTTP 201 Created
 ```
 ###### 2)Update:
 ```http
-  PUT http://127.0.0.1:8000/account/staff-list/${id}/
+  PUT  http://127.0.0.1:8000/account/staff-list/${id}/
 ```
 | Key | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
@@ -482,6 +546,7 @@ HTTP 201 Created
 | `shipping_address`      | `string` |  |
 | `payment_info`      | `string` | |
 | `profile_picture`      | `picture` | |
+
 #### Responses
 ```javascript
 {
@@ -500,6 +565,25 @@ HTTP 201 Created
 ###### 3)Delete:
 ```http
 Delete http://127.0.0.1:8000/account/staff-list/${id}/
+```
+###### View blocked Users : 
+```http
+GET http://127.0.0.1:8000/account/blocked/
+```
+Response : 
+```javascript
+{
+    "id": id,
+    "username": username,
+    "fullname": fullname,
+    "email": email,
+    "phone_number": phone_number,
+    "shipping_address": shipping_address,
+    "payment_info":payment_info ,
+    "role": 2,
+    "blocked": True or False,
+    "profile_picture": profile picture
+}
 ```
 # Notes:
 #### Roles:
