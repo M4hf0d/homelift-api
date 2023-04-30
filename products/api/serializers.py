@@ -47,12 +47,14 @@ class ProductSerializer(serializers.ModelSerializer):
             }
         }
     def validate(self, data):
-        if data['price'] < 0:
-            raise serializers.ValidationError("Price cannot be negative")
-        if data['quantity'] < 0:
-            raise serializers.ValidationError("Quantity cannot be negative")
-        
-        return data
+        if self.context['request'].method != 'PATCH':
+            if data['price'] < 0:
+                raise serializers.ValidationError("Price cannot be negative")
+            if data['quantity'] < 0:
+                raise serializers.ValidationError("Quantity cannot be negative")
+            
+            return data
+        else: return data
     
         
         

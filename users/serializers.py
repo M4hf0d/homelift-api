@@ -16,7 +16,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'fullname', 'email', 'phone_number',
-                  'shipping_address', 'payment_info','role','blocked','profile_picture']
+                  'shipping_address', 'payment_info','role','blocked','profile_picture','password']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
