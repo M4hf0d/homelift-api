@@ -22,7 +22,7 @@ from django.urls import reverse
 
 from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
                           CustomerSerializer,RequestPasswordResetEmailSerializer,
-                          SetNewPasswordSerializer,)
+                          SetNewPasswordSerializer,CustomerListSerializer,)
                         #   ProfileSerializer)
 
 from .models import Customer
@@ -170,11 +170,13 @@ class ProfileDetailsAV(APIView):
  
         
 class StaffListAPIView(generics.ListAPIView):
-    serializer_class = CustomerSerializer
+    serializer_class = CustomerListSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['fullname','email','phone_number', 'shipping_address']
     def get_queryset(self):
         return Customer.objects.filter(role=Customer.STAFF).order_by('-blocked')
+
+        
 
     
 class StaffCreateAPIView(generics.CreateAPIView):
@@ -192,7 +194,7 @@ class StaffRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
      
         
 class CustomerListAPIView(generics.ListAPIView):
-    serializer_class = CustomerSerializer
+    serializer_class = CustomerListSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['fullname','email','phone_number', 'shipping_address']
     def get_queryset(self):
