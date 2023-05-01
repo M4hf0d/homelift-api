@@ -5,7 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Customer
 from .utils import Util 
-
+from .models import Customer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
@@ -14,6 +14,12 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id', 'username', 'fullname', 'email', 'phone_number',
                   'shipping_address', 'payment_info','role','blocked','profile_picture','password']
+    def create(self, validated_data):
+            password = validated_data.pop('password')
+            customer = Customer(**validated_data)
+            customer.set_password(password)
+            customer.save()
+            return customer
 
 class RegistrationSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
