@@ -9,6 +9,8 @@
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
   * [Users Management](#users-management)
+    - [Block Staff Or customer](#retrieveupdatedelete-staff-you-can-block-here)
+    - [View Blocked Users](#view-blocked-users-)
 - [Notes](#notes)
 
 
