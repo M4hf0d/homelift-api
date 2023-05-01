@@ -9,7 +9,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView,ListAPIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from rest_framework import filters
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login
 from djoser.views import UserViewSet
@@ -171,6 +171,8 @@ class ProfileDetailsAV(APIView):
         
 class StaffListAPIView(generics.ListAPIView):
     serializer_class = CustomerSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['fullname','email','phone_number', 'shipping_address']
     def get_queryset(self):
         return Customer.objects.filter(role=Customer.STAFF).order_by('-blocked')
 
@@ -191,6 +193,8 @@ class StaffRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         
 class CustomerListAPIView(generics.ListAPIView):
     serializer_class = CustomerSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['fullname','email','phone_number', 'shipping_address']
     def get_queryset(self):
         return Customer.objects.filter(role=Customer.CLIENT).order_by('-blocked')
 
