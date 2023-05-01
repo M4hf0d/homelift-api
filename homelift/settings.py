@@ -126,7 +126,7 @@ WSGI_APPLICATION = "homelift.wsgi.application"
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "railway",
+        'NAME': "railway", 
         'USER':"postgres",
         'PASSWORD':"izP7fm09UjB7T7HURPUR",
         'HOST':"containers-us-west-155.railway.app",
