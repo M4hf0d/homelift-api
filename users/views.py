@@ -179,7 +179,7 @@ class StaffCreateAPIView(generics.CreateAPIView):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.filter(role=Customer.STAFF)
     def perform_create(self,serializer):
-        serializer.save(role=Customer.STAFF)  
+        serializer.save(role=Customer.STAFF, is_active=True)  
 
 
 

@@ -54,7 +54,8 @@ class ProductSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Quantity cannot be negative")
             
             return data
-        else: return data
+        else: return data #No checks 
+        #TODO
     
         
         

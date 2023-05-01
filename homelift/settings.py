@@ -124,18 +124,18 @@ WSGI_APPLICATION = "homelift.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-#    'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': "railway",
-#         'USER':"postgres",
-#         'PASSWORD':"izP7fm09UjB7T7HURPUR",
-#         'HOST':"containers-us-west-155.railway.app",
-#         'PORT':"6841"
-#     }
-  "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "railway",
+        'USER':"postgres",
+        'PASSWORD':"izP7fm09UjB7T7HURPUR",
+        'HOST':"containers-us-west-155.railway.app",
+        'PORT':"6841"
     }
+#   "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
