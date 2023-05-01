@@ -8,8 +8,7 @@
   * [Products & Archiving](#product-)
   * [Categories](#categories-)
   * [Sub-Categories](#sub-categories)
-  * [Users Management](#users-management) 
-   
+  * [Users Management](#users-management)
 - [Notes](#notes)
 
 
@@ -365,9 +364,6 @@ HTTP 201 Created
 }
 ```
 
-
-## Users Management
-
 ### View Customer List
 ```http
   GET http://127.0.0.1:8000/account/customer-list/
@@ -569,6 +565,25 @@ http://127.0.0.1:8000/account/customer-list/<int:pk>/
 ###### 3)Delete:
 ```http
 Delete http://127.0.0.1:8000/account/staff-list/${id}/
+```
+###### View blocked Users : 
+```http
+GET http://127.0.0.1:8000/account/blocked/
+```
+Response : 
+```javascript
+{
+    "id": id,
+    "username": username,
+    "fullname": fullname,
+    "email": email,
+    "phone_number": phone_number,
+    "shipping_address": shipping_address,
+    "payment_info":payment_info ,
+    "role": 2,
+    "blocked": True or False,
+    "profile_picture": profile picture
+}
 ```
 # Notes:
 #### Roles:
