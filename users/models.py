@@ -72,12 +72,12 @@ class Customer(AbstractBaseUser):
     updated  = models.DateField(auto_now = True) #Update
 
     
-    wilaya = models.CharField(max_length=255)
-    daira = models.CharField(max_length=255)
-    mairie = models.CharField(max_length=255)
-    street = models.CharField(max_length=255)
-    addresse_line = models.TextField()
-    code_postal = models.PositiveIntegerField(validators=[MinValueValidator(11111),MaxValueValidator(99999)])
+    wilaya = models.CharField(max_length=255,blank=True, null=True)
+    daira = models.CharField(max_length=255,blank=True, null=True)
+    mairie = models.CharField(max_length=255,blank=True, null=True)
+    street = models.CharField(max_length=255,blank=True, null=True)
+    addresse_line = models.TextField(blank=True, null=True)
+    code_postal = models.PositiveIntegerField(validators=[MinValueValidator(11111),MaxValueValidator(99999)],blank=True, null=True)
     
     
     
