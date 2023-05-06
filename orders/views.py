@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics
-from .serializers import ItemSerializer,AddToCartSerializer
+from .serializers import ItemSerializer,CartSerializer
 from .models import Item,Cart
 from users.models import Customer
 from rest_framework.views import APIView
@@ -9,9 +9,10 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from products.models import Product
 
+
 class AddToCart(generics.CreateAPIView):
     
-    serializer_class=AddToCartSerializer
+    serializer_class=ItemSerializer
     def get_queryset(self):
         return Item.objects.all() 
     
@@ -29,8 +30,6 @@ class CartCheckAV(APIView):
         items = Item.objects.filter(Cart_id=(Cart.objects.get(Customer_id=user_id)).id)
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data)
-
-
 
         
              
@@ -53,25 +52,7 @@ class ItemDetailsAV(APIView):
             item.save()
             serializer=ItemSerializer(item)
             return Response(serializer.data)
- 
- 
- 
-# class ItemRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-#     queryset = Item
-#     serializer_class = UptodateCartSerializer
-# class ItemDetailsAV(generics.CreateAPIView):
-    
-#     serializer_class=ItemSerializer
-#     def get_object(self):
-#         queryset = self.get_queryset()
-    
-#     def get_queryset(self):
-#         pk= self.kwargs.get('pk')
-#         return Item.objects.get(pk=pk) 
-        
-#     def  perform_update(self, serializer):
-#         pk=self.kwargs.get('pk')
-#         Product_id = Item.objects.get(pk=pk).Product_id
-#         Cart_id = Item.objects.get(pk=pk).Cart_id
-#         quantity = self.request.PUT.get('Quantity')
-#         serializer.save(Cart_id,quantity,Product_id,)
+    def delete(self,request,pk,user_id):
+            item=Item.objects.get(pk=pk)
+            item.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
