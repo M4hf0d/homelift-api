@@ -65,6 +65,11 @@ def registration_view(request):
             data['response'] = "Registration Successful!"
             data['phone_number'] = account.phone_number
             data['email'] = account.email   
+            data['wilaya']= account.wilaya
+            data['daira'] = account.daira
+            data['street'] = account.street
+            data ['address_line'] = account.address_line
+            data['code_postal'] = account.code_postal
 
             # token = Token.objects.get(user=account).key
             # data['token'] = token

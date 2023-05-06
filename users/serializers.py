@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Customer
+from .models import Customer 
 from .utils import Util 
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -12,18 +12,19 @@ from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 
+
+
+        
+        
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['id', 'username', 'fullname', 'email', 'phone_number',
-                  'shipping_address', 'payment_info']
+        fields = ['id', 'fullname','phone_number', 'username','email', 'password','payment_info','wilaya','daira','mairie','street','addresse_line','code_postal']
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    class Meta :    # password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
-    class Meta:
-        model = Customer
-        fields = [ 'fullname','phone_number', 'username','email', 'password','shipping_address','payment_info']
+        fields = [ 'fullname','phone_number', 'username','email', 'password','payment_info','wilaya','daira','mairie','street','addresse_line','code_postal']
         extra_kwargs = {
             'password' : {'write_only': True}
         }
@@ -33,6 +34,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         password = self.validated_data['password']
         fullname = self.validated_data['fullname']
+        wilaya = self.validated_data['wilaya']
+        daira = self.validated_data['daira']
+        mairie = self.validated_data['mairie']
+        street = self.validated_data['street']
+        address_line = self.validated_data['address_line']
+        code_postal = self.validated_data['code_postal']
 
         if Customer.objects.filter(email=self.validated_data['email']).exists():
             raise serializers.ValidationError({'error': 'Email already exists!'})
@@ -41,7 +48,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if Customer.objects.filter(phone_number=self.validated_data['phone_number']).exists():
             raise serializers.ValidationError({'error': 'Phone Number already exists!'})
 
-        account = Customer(email=self.validated_data['email'], phone_number=self.validated_data['phone_number'], fullname = fullname)
+        account = Customer(email=self.validated_data['email'], phone_number=self.validated_data['phone_number'], fullname = fullname,wilaya=wilaya,daira=daira,mairie=mairie,street=street,address_line=address_line,code_postal=code_postal)
         account.set_password(password)
         account.save()
 
