@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Product , Category ,ProductRating , ProductImage ,ArchivedProduct, SubCategory , ProductComment
+from ..models import Product , Category ,ProductRating , ProductImage , SubCategory , ProductComment
 from rest_framework.validators import UniqueValidator
 
  
@@ -60,15 +60,6 @@ class ProductSerializer(serializers.ModelSerializer):
         #TODO
     
         
-
-
-class ArchivedProductSerializer(serializers.ModelSerializer):
-    category_name = serializers.CharField(source='category.name',read_only=True)
-    subcategory_name = serializers.CharField(source='subcategory.name',read_only=True)
-    class Meta:
-        model = ArchivedProduct
-        fields = '__all__'
-
 
         
 class SubCategorySerializer(serializers.ModelSerializer):

@@ -4,7 +4,6 @@ from .views import *
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
 router.register(r'categories',CategoryViewSet)
-router.register(r'products-archived', ArchivedProductViewSet)
 
 
 urlpatterns = [

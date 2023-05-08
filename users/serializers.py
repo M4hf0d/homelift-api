@@ -128,8 +128,3 @@ class SetNewPasswordSerializer (serializers.Serializer):
     
 
 
-# class ProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Customer
-#         fields = ['username', 'fullname', 'email', 'phone_number',
-#                   'shipping_address', 'payment_info']

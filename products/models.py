@@ -114,19 +114,3 @@ class ProductComment(models.Model):
         db_table = 'comments'
         
         
-class ArchivedProduct(models.Model):
-    name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to=upload_image_product_url, null=True, blank=True)
-    subcategory =models.ForeignKey(SubCategory,on_delete=models.CASCADE,related_name='productsArchived')
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,editable=False)
-    price = models.FloatField(default=0,
-                       validators=[MaxValueValidator(1000000000.00),MinValueValidator(0)])
-    description = models.TextField(blank=True)
-    rating_rv= models.FloatField(default=0)
-    rating_nb= models.PositiveIntegerField(default=0)   
-    # comment =  models.ForeignKey(ProductComment,on_delete=models.CASCADE,editable=False)
-    # image_list = models.ForeignKey(ProductImage,on_delete=models.CASCADE,editable=False)
-    # ratings = models.ForeignKey(ProductRating,on_delete=models.CASCADE,editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return self.name
