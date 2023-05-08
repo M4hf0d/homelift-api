@@ -7,7 +7,6 @@ from django.core.validators import MaxValueValidator,  MinValueValidator
 
 
 
-
     
 
 class CustomerManager(BaseUserManager):
@@ -77,7 +76,6 @@ class Customer(AbstractBaseUser):
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True, default=3)
  
 
-    
     wilaya = models.CharField(max_length=255,blank=True, null=True)
     daira = models.CharField(max_length=255,blank=True, null=True)
     mairie = models.CharField(max_length=255,blank=True, null=True)

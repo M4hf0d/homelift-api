@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import generics
 from .serializers import ItemSerializer,CartSerializer
 from .models import Item,Cart
-from users.models import Customer
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
@@ -17,11 +16,10 @@ class AddToCart(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user_id = self.kwargs.get('user_id')
-        Product_id = self.kwargs.get('product_id') 
+        product_id = self.kwargs.get('product_id') 
         quantity = self.request.POST.get('Quantity')
-        Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
-        Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
-        serializer.save(Cart_id,Product_id,quantity)
+        cart, _ = Cart.objects.get_or_create(Customer_id=user_id)
+        serializer.save(Cart_id=cart, Product_id=Product.objects.get(pk=product_id), Quantity=quantity)
 
 
 class CartCheckAV(APIView):
