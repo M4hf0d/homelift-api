@@ -172,7 +172,7 @@ class ProfileDetailsAV(APIView):
 class StaffListAPIView(generics.ListAPIView):
     serializer_class = CustomerListSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['fullname','email','phone_number', 'shipping_address']
+    search_fields = ['fullname','email','phone_number','wilaya', 'daira' ,   'mairie','street' ,'addresse_line','code_postal' ,]
     def get_queryset(self):
         return Customer.objects.filter(role=Customer.STAFF).order_by('-blocked')
 
@@ -196,7 +196,7 @@ class StaffRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class CustomerListAPIView(generics.ListAPIView):
     serializer_class = CustomerListSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['fullname','email','phone_number', 'shipping_address']
+    search_fields = ['fullname','email','phone_number','wilaya', 'daira' ,   'mairie','street' ,'addresse_line','code_postal' ]
     def get_queryset(self):
         return Customer.objects.filter(role=Customer.CLIENT).order_by('-blocked')
 
