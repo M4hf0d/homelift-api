@@ -13,7 +13,7 @@ class Cart(models.Model):
 class Item(models.Model):
     Cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name = 'CART',editable=False)
     Product_id = models.ForeignKey(Product, on_delete=models.CASCADE , related_name='PRODUCT',editable=False)
-    Quantity = models.PositiveBigIntegerField(default=0,)
+    Quantity = models.PositiveBigIntegerField(default=1)
     Created_at = models.DateTimeField(auto_now_add=True)
 
 
