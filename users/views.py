@@ -22,7 +22,7 @@ from django.urls import reverse
 
 from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
                           CustomerSerializer,RequestPasswordResetEmailSerializer,
-                          SetNewPasswordSerializer,CustomerListSerializer,)
+                          SetNewPasswordSerializer,CustomerListSerializer,CustomerUpdateSerializer)
                         #   ProfileSerializer)
 
 from .models import Customer
@@ -161,7 +161,7 @@ class ProfileDetailsAV(APIView):
         return Response(serializer.data)
     def put(self,request,pk):
         user_profile=Customer.objects.get(pk=pk)
-        serializer=CustomerSerializer(user_profile,data=request.data)
+        serializer=CustomerUpdateSerializer(user_profile,data=request.data)
         if serializer.is_valid():
            serializer.save()
            return Response(serializer.data)

@@ -25,6 +25,15 @@ class CustomerSerializer(serializers.ModelSerializer):
             customer.save()
             return customer
 
+
+        
+        
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ['id', 'username', 'fullname', 'email', 'phone_number',
+                   'wilaya', 'daira' ,   'mairie','street' ,'addresse_line','code_postal' , 'payment_info','role','blocked','profile_picture']
+
 class CustomerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
