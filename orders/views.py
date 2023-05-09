@@ -19,7 +19,7 @@ class AddToCart(generics.CreateAPIView):
     def perform_create(self, serializer):
         user_id = self.kwargs.get('user_id')
         Product_id = self.kwargs.get('product_id') 
-        quantity = self.request.POST.get('Quantity')
+        quantity = self.request.data['Quantity']
         Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
         Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
         serializer.save(Cart_id,Product_id,quantity)
@@ -41,7 +41,7 @@ class ItemDetailsAV(APIView):
            return Response({'error':'Item Not Found'},status=status.HTTP_404_NOT_FOUND)
         serializer=ItemSerializer(item)
         return Response(serializer.data)
-    def put(self,request,pk,user_id):
+    def patch(self,request,pk,user_id):
         item = Item.objects.get(pk=pk)
         serializer=ItemSerializer
         quantity=request.data['Quantity']
