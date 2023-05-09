@@ -159,9 +159,9 @@ class ProfileDetailsAV(APIView):
            return Response({'error':'User Not Found'},status=status.HTTP_404_NOT_FOUND)
         serializer=CustomerSerializer(user_profile)
         return Response(serializer.data)
-    def put(self,request,pk):
+    def patch(self,request,pk):
         user_profile=Customer.objects.get(pk=pk)
-        serializer=CustomerUpdateSerializer(user_profile,data=request.data)
+        serializer=CustomerUpdateSerializer(user_profile,data=request.data,partial=True)
         if serializer.is_valid():
            serializer.save()
            return Response(serializer.data)
