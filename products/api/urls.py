@@ -3,17 +3,23 @@ from rest_framework import routers
 from .views import *
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
-router.register(r'categories',CategoryViewSet)
+router.register(r'categories',CategoryViewSet) 
+router.register(r'favorites', FavoriteProductViewSet, basename='favorite-product')
+    
 
 
 urlpatterns = [
     path('', include(router.urls)),
+    
 
     
     # product-subcategory
     path('categories/<int:pk>/subcategory/', SubCategoryListAPIView.as_view(), name='sub-category-list'),
     path('categories/<int:pk>/subcategory-create/', SubCategoryCreateAPIView.as_view(), name='sub-category-create'),
     path('categories/subcategory/<int:pk>/', SubCategoryRetrieveUpdateDestroyAPIView.as_view(),name='sub-category-detail'),
+    
+    # product-favorites
+    path('', SubCategoryRetrieveUpdateDestroyAPIView.as_view(),name='sub-category-detail'),
 
     # product-comments
     path('products/<int:pk>/comments/', CommentsListAPIView.as_view(), name='comments-list'),

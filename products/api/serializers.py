@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Product , Category ,ProductRating , ProductImage , SubCategory , ProductComment
+from ..models import Product , Category ,ProductRating , ProductImage , SubCategory , ProductComment , FavoriteProduct
 from rest_framework.validators import UniqueValidator
 
  
@@ -61,7 +61,13 @@ class ProductSerializer(serializers.ModelSerializer):
     
         
 
-        
+class FavoriteProductSerializer(serializers.ModelSerializer):
+    # user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = FavoriteProduct
+        # fields = '__all__'
+        exclude = ['user']
+     
 class SubCategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True,read_only=True)    
     class Meta:

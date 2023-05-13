@@ -6,11 +6,15 @@ from rest_framework.exceptions import NotFound , ValidationError
 from rest_framework.status import HTTP_404_NOT_FOUND
 import django_filters.rest_framework as filters
 from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.response import Response
+from users.models import Customer
+from rest_framework import permissions 
 
 
 
-from ..models import Product , Category , SubCategory , ProductImage , ProductRating , ProductComment
-from .serializers import ProductSerializer ,CategorySerializer , SubCategorySerializer , ImagesSerializer , RatingSerializer , CommentsSerializer
+
+from ..models import Product , Category , SubCategory , ProductImage , ProductRating , ProductComment ,FavoriteProduct
+from .serializers import ProductSerializer ,CategorySerializer , SubCategorySerializer , ImagesSerializer , RatingSerializer , CommentsSerializer , FavoriteProductSerializer
 from .filter import ProductFilter
 
 
@@ -23,6 +27,38 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['name','description','category__name', 'subcategory__name']
     ordering_fields = ['name', 'price','quantity']
     
+class FavoriteProductViewSet(viewsets.ModelViewSet):
+    # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FavoriteProductSerializer
+
+    def get_queryset(self):
+        # print("###########",self.request.user)
+        customer = self.request.user
+        return FavoriteProduct.objects.filter(user=customer)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Check if the product already exists in the favorite products list
+        customer = self.request.user
+        product = serializer.validated_data['product']
+        favorite_product = FavoriteProduct.objects.filter(user=customer, product=product)
+        # print("$$$$$$$$$$",favorite_product)
+        if favorite_product.first():
+            return Response({"message": "Product is already in favorite list"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Set the user of the new FavoriteProduct to the current authenticated user
+        serializer.validated_data['user'] = customer
+
+        self.perform_create(serializer)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'Favorite product deleted successfully.'},status=status.HTTP_204_NO_CONTENT)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

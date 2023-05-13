@@ -71,7 +71,20 @@ class Product(models.Model):
     def in_stock(self):
         return self.quantity > 0
     
-    
+
+class FavoriteProduct(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username} likes {self.product.name}"
+
+
+
+
+
+
+  
 class ProductImage(models.Model):
     
     productList = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='productImages')
