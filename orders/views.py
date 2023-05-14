@@ -28,14 +28,16 @@ class AddToCartAPIView(CreateAPIView):
     serializer_class = ItemSerializer
 
     def post(self, request, user_id, product_id):
-        product_id = product_id
-        quantity = request.POST["Quantity"]
+        # product_id = product_id
+        # quantity = request.POST["Quantity"]
+        quantity = request.POST.get('Quantity', 1)
         print(quantity)
 
+        cster = Customer.objects.get(id=user_id)
         try:
-            cart = Cart.objects.get(Customer_id=user_id)
+            cart = Cart.objects.get(Customer_id=cster)
         except Cart.DoesNotExist:
-            cart = Cart.objects.create(Customer_id=user_id)
+            cart = Cart.objects.create(Customer_id=cster)
         item = Item.objects.filter(carti__id=cart.id, Product_id=product_id).first()
         if item :
             item.Quantity += int(quantity)
@@ -45,6 +47,7 @@ class AddToCartAPIView(CreateAPIView):
             item.carti.set([cart])
             cart.items.add(item)
         serializer = self.serializer_class(item)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

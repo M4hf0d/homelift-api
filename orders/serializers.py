@@ -16,7 +16,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return value 
 
     def get_items_price(self,obj): 
-        return obj.Product_id.price * obj.Quantity
+        return int(obj.Product_id.price) * obj.Quantity
     def get_unit_price(self,obj):
         return obj.Product_id.price
     # def save(self,Product_id, data):
