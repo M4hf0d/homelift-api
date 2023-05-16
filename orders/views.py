@@ -99,4 +99,3 @@ class ItemDetailsAV(APIView):
             item=Item.objects.get(pk=pk)
             item.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-

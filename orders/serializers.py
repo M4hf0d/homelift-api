@@ -34,15 +34,17 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     # items = serializers.CharField(source="items.Product_id.name", many= True)
-    items = ItemSerializer(many=True)
-    total_amount = serializers.SerializerMethodField()
+    items = ItemSerializer()
+    # total_amount = serializers.SerializerMethodField()
     class Meta:
         model = Cart
         fields = "__all__"
-
-    def get_total_amount(self, obj):
-        total = sum(item.Quantity * item.Product_id.price for item in obj.items.all())
-        return '{:.2f}'.format(total)
+    # def get_total_amount(self, obj):
+    #     if obj.items is not None:
+    #         total = sum(int(item.Quantity) * int(item.Product_id.price) for item in obj.items)
+    #         return '{:.2f}'.format(total)
+    #     else:
+    #         return '0.00'
 
 
 
