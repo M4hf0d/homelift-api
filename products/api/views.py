@@ -23,6 +23,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['name','description','category__name', 'subcategory__name']
     ordering_fields = ['name', 'price','quantity']
     
+    
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

@@ -6,7 +6,7 @@ from products.models import Product
 class Cart(models.Model):
     Customer_id = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name = 'USER',editable=False)
     Created_at = models.DateTimeField(auto_now_add=True)
-    items = models.ManyToManyField("Item", blank= True, related_name="carti")
+    items = models.ForeignKey("Item", on_delete=models.CASCADE ,blank= True, related_name="carti", null = True)
 
 
     def __str__(self):

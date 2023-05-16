@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.generics import ListAPIView,CreateAPIView
@@ -24,6 +25,7 @@ from .models import *
 #         Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
 #         Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
 #         serializer.save(Cart_id,Product_id,quantity)
+
 class AddToCartAPIView(CreateAPIView):
     serializer_class = ItemSerializer
 
@@ -31,7 +33,8 @@ class AddToCartAPIView(CreateAPIView):
         # product_id = product_id
         # quantity = request.POST["Quantity"]
         quantity = request.POST.get('Quantity', 1)
-        print(quantity)
+        if int(quantity) <= 0 : 
+            raise serializers.ValidationError('Quantity must be a positive integer')
 
         cster = Customer.objects.get(id=user_id)
         try:
@@ -43,9 +46,11 @@ class AddToCartAPIView(CreateAPIView):
             item.Quantity += int(quantity)
             item.save()
         else:
+            # item = Item.objects.create(Product_id_id=product_id, Quantity=quantity)
+            # cart.items.add(item)
             item = Item.objects.create(Product_id_id=product_id, Quantity=quantity)
             item.carti.set([cart])
-            cart.items.add(item)
+
         serializer = self.serializer_class(item)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
