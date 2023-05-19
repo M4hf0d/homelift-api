@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import datetime, timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,14 +27,17 @@ SECRET_KEY = "django-insecure-lqwfb$izok43+vfv%tt8&)02rx58-$l&wb=wvomp-k3qrj!pup
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [    'localhost',    '127.0.0.1',    'example.com',    'homelift-api-production.up.railway.app']
-
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "example.com",
+    "homelift-api-production.up.railway.app",
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -41,20 +45,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
+    "rest_framework",
     "products",
     "users",
     "orders",
-    'rest_framework_simplejwt',
+    "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework.authtoken",
-    'django_filters',
-    'djoser', 
-    'drf_yasg',
+    "django_filters",
+    "djoser",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
-     "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -67,38 +71,38 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
 ]
 
 CORS_ORIGIN_WHITELIST = [
-     "http://localhost:3001",
+    "http://localhost:3001",
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOW_CREDENTIALS= True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
-'DELETE',
-'GET',
-'OPTIONS',
-'PATCH',
-'POST',
-'PUT',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
 CORS_ALLOW_HEADERS = [
-'accept',
-'accept-encoding',
-'authorization',
-'content-type',
-'dnt',
-'origin',
-'user-agent',
-'x-csrftoken',
-'x-requested-with',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 ROOT_URLCONF = "homelift.urls"
@@ -126,27 +130,27 @@ WSGI_APPLICATION = "homelift.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-#    'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': "railway", 
-#         'USER':"root",
-#         'PASSWORD':"cTMqlDD6SghVIZd47Z2K",
-#         'HOST':"containers-us-west-177.railway.app",
-#         'PORT':"7598"
-#     }
-  "default": {
+    #    'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': "railway",
+    #         'USER':"root",
+    #         'PASSWORD':"cTMqlDD6SghVIZd47Z2K",
+    #         'HOST':"containers-us-west-177.railway.app",
+    #         'PORT':"7598"
+    #     }
+    "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'homelift.shop@gmail.com'
-EMAIL_HOST_PASSWORD = 'tbgiifvwdabykxom'
+EMAIL_HOST_USER = "homelift.shop@gmail.com"
+EMAIL_HOST_PASSWORD = "tbgiifvwdabykxom"
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'homelift.shop@gmail.com'
+DEFAULT_FROM_EMAIL = "homelift.shop@gmail.com"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -183,7 +187,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -191,18 +194,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.MyTokenObtainPairSerializer",
     # 'BLACKLIST_AFTER_ROTATION': True,
     # 'ALGORITHM': 'HS256',
@@ -215,7 +218,7 @@ SIMPLE_JWT = {
     # 'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-AUTH_USER_MODEL = 'users.Customer'
+AUTH_USER_MODEL = "users.Customer"
 
 
 # STATICFILES_DIRS = [
@@ -224,44 +227,40 @@ AUTH_USER_MODEL = 'users.Customer'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-DOMAIN = 'localhost:3000'
-SITE_NAME = 'HomeLift'
+DOMAIN = "localhost:3000"
+SITE_NAME = "HomeLift"
 
 DJOSER = {
-
-    'LOGIN_FIELD': 'email',
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-
+    "LOGIN_FIELD": "email",
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     # 'USER_CREATE_PASSWORD_RETYPE': True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    'SEND_CONFIRMATION_EMAIL': True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "SEND_CONFIRMATION_EMAIL": True,
     # 'SET_USERNAME_RETYPE': True,
     # 'SET_PASSWORD_RETYPE': True,
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
     # 'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
     # 'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/google', 'http://localhost:8000/facebook'],
-    'SERIALIZERS': {
+    "SERIALIZERS": {
         # 'user_create': 'accounts.serializers.UserCreateSerializer',
         # 'user': 'accounts.serializers.UserCreateSerializer',
-        'current_user': 'users.serializers.CustomerSerializer',
-         'token': 'path.to.CustomTokenSerializer',
+        "current_user": "users.serializers.CustomerSerializer",
+        "token": "path.to.CustomTokenSerializer",
         # 'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
     #
-    'BLACKLIST_AFTER_ROTATION': False,
+    "BLACKLIST_AFTER_ROTATION": False,
 }
 
 
 STATIC_URL = "static/"
-STATIC_ROOT =BASE_DIR / 'staticfiles'
-STATICFILES_DIRS =[
-    BASE_DIR / 'media'
-]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "media"]
 
-MEDIA_ROOT = BASE_DIR / 'media/images'
+MEDIA_ROOT = BASE_DIR / "media/images"
 
-MEDIA_URL = '/images/'
+MEDIA_URL = "/images/"
