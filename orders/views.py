@@ -83,17 +83,16 @@ class ItemDetailsAV(APIView):
            return Response({'error':'Item Not Found'},status=status.HTTP_404_NOT_FOUND)
         serializer=ItemSerializer(item)
         return Response(serializer.data)
-    def patch(self,request,pk,user_id):
+    def patch(self, request, pk, user_id):
         item = Item.objects.get(pk=pk)
-        serializer=ItemSerializer
-        quantity=request.data['Quantity']
-        if int(quantity) > Product.objects.get(name=item.Product_id).quantity :
-            return Response({'error':'non valid quantity'},status=status.HTTP_400_BAD_REQUEST)
-        else:
-            item.Quantity=int(quantity)
-            item.save()
-            serializer=ItemSerializer(item)
+        serializer = ItemSerializer(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            if serializer.validated_data.get('Quantity', item.Quantity) > Product.objects.get(name=item.Product_id).quantity:
+                return Response({'error': 'non valid quantity'}, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self,request,pk,user_id):
             item=Item.objects.get(pk=pk)
             item.delete()
