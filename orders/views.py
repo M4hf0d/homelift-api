@@ -70,7 +70,6 @@ class AddToCartAPIView(CreateAPIView):
 
 class CartCheckAV(ListAPIView):
     serializer_class = CartSerializer
-
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         return Cart.objects.filter(Customer_id=user_id)

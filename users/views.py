@@ -27,7 +27,6 @@ from .serializers import (RegistrationSerializer,MyTokenObtainPairSerializer,
 
 from .models import Customer
 from homelift.settings import DOMAIN
-
 from .utils import Util 
 
 

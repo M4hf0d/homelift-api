@@ -3,11 +3,6 @@ from django.core.validators import MaxValueValidator,  MinValueValidator
 from users.models import Customer
 
 
-
-
-
-
-
 # Sort default image dirs of products by name
 def upload_image_product_url(instance, filename):
     return f'images/{filename}'
