@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.generics import ListAPIView, CreateAPIView
-from .serializers import ItemSerializer, CartSerializer
+from .serializers import ItemSerializer, CartSerializer , PaymentSerializer
 from .models import Item, Cart
 from users.models import Customer
 from rest_framework.views import APIView
@@ -11,6 +11,13 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from products.models import Product
 from .models import *
+from chargily_epay_django.views import (
+    CreatePaymentView,
+    PaymentConfirmationView,
+    PaymentObjectDoneView,
+    FakePaymentView
+
+)
 
 # class AddToCart(generics.CreateAPIView):
 
@@ -107,3 +114,24 @@ class ItemDetailsAV(APIView):
         item = Item.objects.get(pk=pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CreatePayment(CreatePaymentView):
+    payment_create_faild_url = ""
+    template_name: str = "payment/payment.html"
+    model = Payment
+    fields = ["client", "client_email", "amount", "mode"]
+    def get_queryset(self):
+       return Payment.objects.all()
+
+
+class PaymentStatus(PaymentObjectDoneView):
+    model = Payment
+    template_name: str = "payment/payment-status.html"
+
+
+class ConfirmPayment(PaymentConfirmationView):
+    model = Payment
+
+class FakePayment(FakePaymentView):
+    model = Payment
