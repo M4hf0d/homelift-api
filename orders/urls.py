@@ -9,6 +9,7 @@ urlpatterns = [
         name="add_to_cart",
     ),
     path("<int:user_id>/view-cart/", CartCheckAV.as_view(), name="check_cart"),
+    path("<int:user_id>/verify-cart/", CartCheckView.as_view(), name="verify_cart"),
     path(
         "<int:user_id>/view-cart/<int:pk>/",
         ItemDetailsAV.as_view(),
@@ -25,6 +26,7 @@ urlpatterns = [
         PaymentStatus.as_view(),
         name="payment-status",
     ),
+    
 ]
 
 if settings.DEBUG: 

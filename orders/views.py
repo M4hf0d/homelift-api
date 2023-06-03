@@ -85,6 +85,26 @@ class CartCheckAV(ListAPIView):
         return Cart.objects.filter(Customer_id=user_id)
 
 
+class CartCheckView(APIView):
+    def get(self, request, user_id):
+        cart = Cart.objects.get(Customer_id=user_id)  # Retrieve the cart for the authenticated user
+
+        if cart : 
+            for item in cart.items.all():
+                if item.Quantity > item.Product_id.quantity:
+                    print(item.Product_id.name)
+                    return Response(
+                        {"error": f"{item.Product_id.name}'s Quantity exceeds available stock."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+        # If all quantities are valid, proceed with the payment process
+        # Initiating payment and generating order code here...
+
+            return Response({"message": "All Set."}, status=status.HTTP_200_OK)
+        else: 
+            return Response({"error": "User Doesnt have a cart"}, status=status.HTTP_200_OK)
+            
 class ItemDetailsAV(APIView):
     def get(self, request, pk, user_id):
         try:
