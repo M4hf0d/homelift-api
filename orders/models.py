@@ -1,7 +1,9 @@
 from django.db import models
 from users.models import Customer
 from products.models import Product
-
+from chargily_epay_django.models import AnonymPayment, FakePaymentMixin
+from django.urls import reverse
+from chargily_epay_django.utils import get_webhook_url
 
 class Item(models.Model):
     Product_id = models.ForeignKey(
@@ -46,3 +48,14 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    
+class Payment(FakePaymentMixin,AnonymPayment):
+    webhook_url = "create-payment"
+    fake_payment_url = "fake-payment"
+
+    def generate_back_url(self):
+        app_url = reverse(
+            "payment-status", kwargs={"invoice_number": self.invoice_number}
+        )
+        return get_webhook_url(app_url)

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "chargily_epay_django",
     "products",
     "users",
     "orders",
@@ -110,7 +111,7 @@ ROOT_URLCONF = "homelift.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -264,3 +265,11 @@ STATICFILES_DIRS = [BASE_DIR / "media"]
 MEDIA_ROOT = BASE_DIR / "media/images"
 
 MEDIA_URL = "/images/"
+
+
+
+# CHARGILY SETTINGS
+CHARGILY_API_KEY = 'api_EKo8n7ygSyn9ELGnGa192gthCoynKj3BA6s9N9H4iiKpoB8amZO3WPPiQMKuDC9L'
+CHARGILY_SECRET_KEY = 'secret_f63ed1fe27d7bdccd7242c160ca2fe25b81c3961c7b6d6a5e3f4188788efb7fd'
+CHARGILY_FAKE_DOMAIN = 'http://localhost:8000/' 
+CHARGILY_SITE = 'https://example.com/'

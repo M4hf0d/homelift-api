@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Item, Cart
+from .models import Item, Cart ,Payment
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -35,3 +35,9 @@ class CartSerializer(serializers.ModelSerializer):
     def get_total_amount(self, obj):
         total = sum(item.Quantity * item.Product_id.price for item in obj.items.all())
         return "{:.2f}".format(total)
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ["client", "client_email", "amount", "mode"]
