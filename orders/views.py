@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from rest_framework import serializers
+from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.generics import ListAPIView, CreateAPIView
-from .serializers import ItemSerializer, CartSerializer , PaymentSerializer
+from .serializers import *
 from .models import Item, Cart
 from users.models import Customer
 from rest_framework.views import APIView
@@ -18,7 +18,8 @@ from chargily_epay_django.views import (
     FakePaymentView
 
 )
-
+import django_filters.rest_framework as filters
+from rest_framework.filters import SearchFilter, OrderingFilter
 # class AddToCart(generics.CreateAPIView):
 
 #     serializer_class=ItemSerializer
@@ -32,6 +33,15 @@ from chargily_epay_django.views import (
 #         Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
 #         Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
 #         serializer.save(Cart_id,Product_id,quantity)
+
+
+class OrdersViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
+    search_fields = ["customer__fullname", "email"]
+    ordering_fields = ["total_amount", "customer__fullname"]
+
 
 
 class AddToCartAPIView(CreateAPIView):
@@ -98,13 +108,41 @@ class CartCheckView(APIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
-        # If all quantities are valid, proceed with the payment process
-        # Initiating payment and generating order code here...
-
             return Response({"message": "All Set."}, status=status.HTTP_200_OK)
         else: 
-            return Response({"error": "User Doesnt have a cart"}, status=status.HTTP_200_OK)
+            return Response({"error": "User Doesnt have a cart"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CheckoutView(APIView):
+    def post(self, request, user_id):
+
+        cart = Cart.objects.get(Customer_id=user_id)  # Retrieve the cart for the authenticated user
+        if  cart.items.count() == 0: return Response({"error": "Order Can't Be empty"}, status=status.HTTP_400_BAD_REQUEST)
+        if not cart :return Response({"error": "User Doesn't have a cart"}, status=status.HTTP_400_BAD_REQUEST) 
+        for item in cart.items.all():
+                if item.Quantity > item.Product_id.quantity:
+                            print(item.Product_id.name)
+                            return Response(
+                                {"error": f"{item.Product_id.name}'s Quantity exceeds available stock."},
+                                status=status.HTTP_400_BAD_REQUEST
+                            )
+            # Subtract the item quantity from the available stock
+                item.Product_id.quantity -= item.Quantity
+                item.Product_id.save()
+
+            # Create an order with the items from the cart
+        customer = cart.Customer_id
+        order = Order.objects.create(customer=customer)
+        order.items.set(cart.items.all())
+        order.calculate_total_amount()
+
+            # Clear the cart
+        cart.items.clear()
+
+            # Return a success response
+        return Response({"message": "Checkout successful."}, status=status.HTTP_200_OK)
             
+
 class ItemDetailsAV(APIView):
     def get(self, request, pk, user_id):
         try:

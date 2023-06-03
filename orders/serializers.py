@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Item, Cart ,Payment
-
+from .models import Item, Cart ,Payment, Order
+from users.serializers import CustomerListSerializer
 
 class ItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="Product_id.name", read_only=True)
@@ -22,6 +22,15 @@ class ItemSerializer(serializers.ModelSerializer):
     def get_unit_price(self, obj):
         return obj.Product_id.price
 
+
+class OrderSerializer(serializers.ModelSerializer):
+    customer = CustomerListSerializer()
+    items = ItemSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'created_at', 'total_amount', 'items']
+        read_only_fields = ['id', 'created_at', 'total_amount']
 
 class CartSerializer(serializers.ModelSerializer):
     # items = serializers.CharField(source="items.Product_id.name", many= True)

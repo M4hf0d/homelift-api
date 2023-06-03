@@ -1,8 +1,15 @@
 from django.urls import path, include
 from django.conf import settings
 from .views import *
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r"orders", OrdersViewSet)
 
 urlpatterns = [
+    path("", include(router.urls)),
+
     path(
         "<int:user_id>/<int:product_id>/addtocart/",
         AddToCartAPIView.as_view(),
@@ -10,6 +17,8 @@ urlpatterns = [
     ),
     path("<int:user_id>/view-cart/", CartCheckAV.as_view(), name="check_cart"),
     path("<int:user_id>/verify-cart/", CartCheckView.as_view(), name="verify_cart"),
+    path("<int:user_id>/checkout/", CheckoutView.as_view(), name="checkout"),
+
     path(
         "<int:user_id>/view-cart/<int:pk>/",
         ItemDetailsAV.as_view(),

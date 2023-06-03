@@ -42,12 +42,13 @@ class Order(models.Model):
     # status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     def calculate_total_amount(self):
         items = self.items.all()
-        total = sum(item.quantity * item.Product_id.price for item in items)
+        total = sum(item.Quantity * item.Product_id.price for item in items)
         self.total_amount = total
         self.save()
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + "  " + str(self.customer.email)
+
 
     
 class Payment(FakePaymentMixin,AnonymPayment):
