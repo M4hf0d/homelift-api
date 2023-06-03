@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="donation-section" class="bg-white min-vh-100 d-flex align-items-center ">
+    <div class=" mx-auto ">
+        <div class="row container-xl  mx-auto py-10 ">
+            <div class="col-12 col-md-10 d-flex mx-auto  ">
+                <div class="container text-center ">
+                    <h1 class="intro-title text-red opacity-90" >Error 404 </h1>
+                    <h3 class="intro-subtitle" >This page does not exist got home and check again.</h3>
+                    <img id="heart-image" class="px-4 mt-3 mt-md-4 " src="{% static 'images/close.png' %}"  alt="">
+                    <div class="py-4">
+                        <a href="{% url 'home' %}" class="btn btn-outline-danger" >Go back</a>
+                    </div>
+                </div>
+            </div> 
+       </div>
+    </div>
+</section>
+{% endblock content %}

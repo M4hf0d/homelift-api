@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object.status == 'paid' %}
+<div class="card w-full  " style="max-width: 500px;">
+    <div class="card-header">
+        <h2 class=" text-success d-flex align-items-center">Donation completed
+            <span class="text-red  pb-1 mx-2 ">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon   icon-tabler icon-filled icon-tabler-heart-handshake" width="24"
+                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <desc>Download more icon variants from https://tabler-icons.io/i/heart-handshake
+                    </desc>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                        d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572">
+                    </path>
+                    <path
+                        d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25">
+                    </path>
+                    <path d="M12.5 15.5l2 2"></path>
+                    <path d="M15 13l2 2"></path>
+                </svg>
+            </span>
+        </h2>
+    </div>
+    <div class="card-body p-3">
+        <h3 class="text-secondary">We are so happy for your donation. </h3>
+        <div class="d-flex justify-content-center align-items-center  ">
+            <span class="avatar  avatar-xl bg-transparent text-success">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="  icon icon-tabler icon-tabler-circle-check" width="24" height="24"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <desc>Download more icon variants from https://tabler-icons.io/i/circle-check
+                    </desc>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M9 12l2 2l4 -4"></path>
+                </svg>
+            </span>
+        </div>
+    </div>
+</div>
+{% elif object.status == 'canceled' %}
+<div class="card w-full  " style="max-width: 500px;">
+    <div class="card-header">
+        <h2 class=" text-orange d-flex align-items-center">Donation cancelled</h2>
+    </div>
+    <div class="card-body p-3">
+        <h3 class="text-secondary">your donation has been canceled</h3>
+        <div class="d-flex justify-content-center align-items-center  ">
+            <span class="avatar  avatar-xl bg-transparent text-orange">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-face-id-error" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <desc>Download more icon variants from https://tabler-icons.io/i/face-id-error</desc>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path>
+                    <path d="M4 16v2a2 2 0 0 0 2 2h2"></path>
+                    <path d="M16 4h2a2 2 0 0 1 2 2v2"></path>
+                    <path d="M16 20h2a2 2 0 0 0 2 -2v-2"></path>
+                    <path d="M9 10h.01"></path>
+                    <path d="M15 10h.01"></path>
+                    <path d="M9.5 15.05a3.5 3.5 0 0 1 5 0"></path>
+                 </svg>
+            </span>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card w-full  " style="max-width: 500px;">
+    <div class="card-header">
+        <h2 class=" text-danger d-flex align-items-center">Donation failed</h2>
+    </div>
+    <div class="card-body p-3">
+        <h3 class="text-secondary">Some error happened while processing your donation.</h3>
+        <div class="d-flex justify-content-center align-items-center  ">
+            <span class="avatar  avatar-xl bg-transparent text-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <desc>Download more icon variants from https://tabler-icons.io/i/x</desc>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                 </svg>
+            </span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock content %}
