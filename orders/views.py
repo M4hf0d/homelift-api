@@ -58,7 +58,9 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
 class AddToCartAPIView(CreateAPIView):
     serializer_class = ItemSerializer
-
+    def get_queryset(self):
+        # Return an empty queryset since we are creating a new item
+        return Item.objects.none()
     def post(self, request, user_id, product_id):
         # product_id = product_id
         # quantity = request.POST["Quantity"]
