@@ -32,6 +32,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'customer', 'created_at', 'total_amount', 'items']
         read_only_fields = ['id', 'created_at', 'total_amount']
 
+
 class CartSerializer(serializers.ModelSerializer):
     # items = serializers.CharField(source="items.Product_id.name", many= True)
     items = ItemSerializer(many=True, read_only=True)

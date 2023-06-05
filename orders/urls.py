@@ -18,7 +18,7 @@ urlpatterns = [
     path("<int:user_id>/view-cart/", CartCheckAV.as_view(), name="check_cart"),
     path("<int:user_id>/verify-cart/", CartCheckView.as_view(), name="verify_cart"),
     path("<int:user_id>/checkout/", CheckoutView.as_view(), name="checkout"),
-
+    path("<int:user_id>/MyOrders/", UserOrdersView.as_view(), name="My-Orders"),
     path(
         "<int:user_id>/view-cart/<int:pk>/",
         ItemDetailsAV.as_view(),

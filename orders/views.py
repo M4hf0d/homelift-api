@@ -4,13 +4,13 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.generics import ListAPIView, CreateAPIView
 from .serializers import *
-from .models import Item, Cart
 from users.models import Customer
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from products.models import Product
 from .models import *
+from users.models import Customer
 from chargily_epay_django.views import (
     CreatePaymentView,
     PaymentConfirmationView,
@@ -33,6 +33,18 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 #         Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
 #         Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
 #         serializer.save(Cart_id,Product_id,quantity)
+
+
+
+class UserOrdersView(APIView):
+    def get(self, request, user_id):
+        oCustomer = Customer.objects.get(pk=user_id)
+        orders = Order.objects.filter(customer=oCustomer)
+        serializer = OrderSerializer(orders , many = True)
+
+        return Response(serializer.data)
+
+
 
 
 class OrdersViewSet(viewsets.ModelViewSet):

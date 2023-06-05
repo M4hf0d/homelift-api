@@ -273,7 +273,7 @@ from rest_framework_simplejwt.serializers import (
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+class CustomTokenObtainPairSerializer(MyTokenObtainPairSerializer):
     def validate(self, attrs):
         ## This data variable will contain refresh and access tokens
         data = super().validate(attrs)
@@ -284,3 +284,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+
+class UsersListAPIView(generics.ListAPIView):
+    serializer_class = CustomerListSerializer
+
+
+    def get_queryset(self):
+        return Customer.objects.all()
