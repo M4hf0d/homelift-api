@@ -18,6 +18,8 @@ from chargily_epay_django.views import (
     FakePaymentView
 
 )
+from django.db.models import Sum
+from datetime import date, timedelta
 import django_filters.rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
 # class AddToCart(generics.CreateAPIView):
@@ -187,14 +189,12 @@ class ItemDetailsAV(APIView):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+from .forms import PaymentForm
 
 class CreatePayment(CreatePaymentView):
     payment_create_faild_url = ""
     template_name: str = "payment/payment.html"
-    model = Payment
-    fields = ["client", "client_email", "amount", "mode"]
-    def get_queryset(self):
-       return Payment.objects.all()
+    form_class = PaymentForm(full_name="John Doe", email="example@gmail.com", amount="1000.00")
 
 
 class PaymentStatus(PaymentObjectDoneView):
@@ -207,3 +207,57 @@ class ConfirmPayment(PaymentConfirmationView):
 
 class FakePayment(FakePaymentView):
     model = Payment
+
+#stats
+class Cards(APIView):
+    def get(self, request):
+        Revenue  = Order.objects.aggregate(total_amount=Sum('total_amount'))['total_amount']
+        Total_Customer =Customer.objects.filter(role = Customer.CLIENT).count()
+        Total_Users =Customer.objects.all().count()
+        withorders = Customer.objects.filter(orders__isnull=False).count()
+        Total_Price = Order.objects.aggregate(Profit = Sum('items__Product_id__price'))['Profit']
+        Total_Bulk = Order.objects.aggregate(Bulk = Sum('items__Product_id__bulk_price'))['Bulk']
+        Resp = {
+                'Revenue': Revenue,
+                'Total Customer': Total_Customer,
+                'Conversion rate':  withorders *100 / Total_Users,
+                'Total Profit' : Total_Price - Total_Bulk,
+
+                }
+        return Response(Resp)
+
+
+class WeeklyOrders(APIView):
+ def get(self, request):
+        today = date.today()
+        start_week = today - timedelta(days=today.weekday()+2)
+        # end_week = start_week + timedelta(days=7)
+
+        saturday = Order.objects.filter(
+            created_at__date=start_week).count()
+        sunday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=1)).count()
+        monday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=2)).count()
+        tuesday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=3)).count()
+        wednesday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=4)).count()
+        thursday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=5)).count()
+        friday = Order.objects.filter(
+            created_at__date=start_week +timedelta(days=6)).count()
+        Resp = {
+                'saturday': saturday,
+                'sunday' : sunday,
+                'monday': monday,
+                'tuesday': tuesday,
+                'wednesday': wednesday,
+                'thursday': thursday,
+                'friday': friday
+                }
+        return Response(Resp)
+
+class LatestProducts(APIView):
+    def get(self, request):
+        pass

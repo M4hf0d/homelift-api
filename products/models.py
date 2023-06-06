@@ -44,6 +44,9 @@ class Product(models.Model):
     price = models.FloatField(
         default=0, validators=[MaxValueValidator(1000000000.00), MinValueValidator(0)]
     )
+    bulk_price = models.FloatField(
+        default=0, validators=[MaxValueValidator(1000000000.00), MinValueValidator(0)]
+    )
     description = models.TextField(blank=True)
     quantity = models.PositiveIntegerField(default=0)
     # in_stock = models.BooleanField(default=False)

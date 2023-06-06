@@ -40,6 +40,7 @@ class Order(models.Model):
     #     ('X', 'Cancelled'),
     # )
     # status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+    Delivery = models.BooleanField(default=False)
     def calculate_total_amount(self):
         items = self.items.all()
         total = sum(item.Quantity * item.Product_id.price for item in items)

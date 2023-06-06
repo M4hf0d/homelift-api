@@ -9,7 +9,8 @@ router.register(r"orders", OrdersViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-
+    path("weekltyorders/",  WeeklyOrders.as_view(), name="WeeklyOrders"),
+    path("cards/",  Cards.as_view(), name="Cards"),
     path(
         "<int:user_id>/<int:product_id>/addtocart/",
         AddToCartAPIView.as_view(),
