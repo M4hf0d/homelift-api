@@ -28,7 +28,7 @@ urlpatterns = [
     path("confirm-payment/", 
          ConfirmPayment.as_view(), 
          name="confirm-payment"),
-    path("cart/pay/",
+    path("cart/<int:order_id>/<int:user_id>/pay/",
          CreatePayment.as_view(),
          name="create-payment"),
     path(

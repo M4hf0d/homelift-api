@@ -194,8 +194,21 @@ from .forms import PaymentForm
 class CreatePayment(CreatePaymentView):
     payment_create_faild_url = ""
     template_name: str = "payment/payment.html"
-    form_class = PaymentForm(full_name="John Doe", email="example@gmail.com", amount="1000.00")
-
+    form_class =  PaymentForm
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        user_id = self.kwargs.get("user_id") 
+        customer = Customer.objects.get(id=user_id) 
+        order_id = self.kwargs.get("order_id") 
+        order = Order.objects.get(id=order_id)
+        form.initial = {
+            "client": customer.fullname,
+            "client_email":  customer.email,
+            "amount": order.total_amount,
+        }
+        return form
+    
 
 class PaymentStatus(PaymentObjectDoneView):
     model = Payment
