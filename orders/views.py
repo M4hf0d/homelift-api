@@ -9,7 +9,9 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from products.models import Product
+import json
 from .models import *
+from products.api.serializers import ProductSerializer
 from users.models import Customer
 from chargily_epay_django.views import (
     CreatePaymentView,
@@ -18,23 +20,11 @@ from chargily_epay_django.views import (
     FakePaymentView
 
 )
-from django.db.models import Sum
+from django.db.models import Sum,Count
 from datetime import date, timedelta
 import django_filters.rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
-# class AddToCart(generics.CreateAPIView):
 
-#     serializer_class=ItemSerializer
-#     def get_queryset(self):
-#         return Item.objects.all()
-
-#     def perform_create(self, serializer):
-#         user_id = self.kwargs.get('user_id')
-#         Product_id = self.kwargs.get('product_id')
-#         quantity = self.request.data['Quantity']
-#         Cart.objects.get_or_create(Customer_id=Customer.objects.get(pk=user_id))
-#         Cart_id=Cart.objects.get(Customer_id=Customer.objects.get(pk=user_id)).pk
-#         serializer.save(Cart_id,Product_id,quantity)
 
 
 
@@ -232,9 +222,9 @@ class Cards(APIView):
         Total_Bulk = Order.objects.aggregate(Bulk = Sum('items__Product_id__bulk_price'))['Bulk']
         Resp = {
                 'Revenue': Revenue,
-                'Total Customer': Total_Customer,
-                'Conversion rate':  withorders *100 / Total_Users,
-                'Total Profit' : Total_Price - Total_Bulk,
+                'Total_Customer': Total_Customer,
+                'Conversion_rate':  withorders *100 / Total_Users,
+                'Total_Profit' : Total_Price - Total_Bulk,
 
                 }
         return Response(Resp)
@@ -244,7 +234,6 @@ class WeeklyOrders(APIView):
  def get(self, request):
         today = date.today()
         start_week = today - timedelta(days=today.weekday()+2)
-        # end_week = start_week + timedelta(days=7)
 
         saturday = Order.objects.filter(
             created_at__date=start_week).count()
@@ -271,6 +260,24 @@ class WeeklyOrders(APIView):
                 }
         return Response(Resp)
 
+
+class BestSeller(APIView):
+    def get(self, request):
+        q = Product.objects.annotate(sales=Count('PRODUCT__order_item')).order_by('-sales')[:5]
+        serializer = ProductSerializer(q, many=True)
+
+        i = 0
+        for element in serializer.data:
+            element["Times_Sold"] = q[i].sales
+            json.dumps(element)
+            i = i+1
+        return Response(serializer.data)
+    
 class LatestProducts(APIView):
     def get(self, request):
-        pass
+        q = Order.objects.all().order_by('-created_at')[:5]
+        serializer = ProductSerializer(q.items.Product_id, many=True)
+        prodlist ={}
+        for order in q :
+            pass
+        return Response(serializer.data)

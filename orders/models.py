@@ -33,7 +33,7 @@ class Order(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    items = models.ManyToManyField(Item)
+    items = models.ManyToManyField(Item, related_name="order_item")
     # STATUS_CHOICES = (
     #     ('P', 'Pending'),
     #     ('C', 'Completed'),
