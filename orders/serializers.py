@@ -46,7 +46,7 @@ class CartSerializer(serializers.ModelSerializer):
         return "{:.2f}".format(total)
 
 
-class PaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
-        fields = ["client", "client_email", "amount", "mode"]
+# class PaymentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Payment
+#         fields = ["client", "client_email", "amount", "mode"]

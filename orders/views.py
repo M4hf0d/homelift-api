@@ -20,6 +20,10 @@ from chargily_epay_django.views import (
 )
 import django_filters.rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
+from .forms import PaymentForm
+
+
+
 # class AddToCart(generics.CreateAPIView):
 
 #     serializer_class=ItemSerializer
@@ -177,10 +181,7 @@ class ItemDetailsAV(APIView):
 class CreatePayment(CreatePaymentView):
     payment_create_faild_url = ""
     template_name: str = "payment/payment.html"
-    model = Payment
-    fields = ["client", "client_email", "amount", "mode"]
-    def get_queryset(self):
-       return Payment.objects.all()
+    form_class = PaymentForm
 
 
 class PaymentStatus(PaymentObjectDoneView):

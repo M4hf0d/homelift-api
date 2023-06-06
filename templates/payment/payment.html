@@ -1,34 +1,54 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
-<div class="card w-full" style="max-width: 500px;">
-    <div class="card-header">
-      <h3 class="card-title">Make donation
-        <span class="text-red ">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon   icon-tabler icon-filled icon-tabler-heart-handshake" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <desc>Download more icon variants from https://tabler-icons.io/i/heart-handshake</desc>
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
-            <path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"></path>
-            <path d="M12.5 15.5l2 2"></path>
-            <path d="M15 13l2 2"></path>
-         </svg>
-        </span>
 
-      </h3>
-    </div>
-    <div class="card-body p-3 ">
-      <form method="post">
-        {% csrf_token %}
-        
-        {{form}}
-        
-        <div class="form-footer d-flex">
-          <button type="submit" class="btn btn-danger ms-auto">Donate</button>
+
+<section id="donation-section" class="bg-white min-vh-100 d-flex align-items-center ">
+    <div class=" mx-auto ">
+        <div class="row container-xl  mx-auto py-10 ">
+            <div class="col-12 col-md-6 d-flex ">
+                <div class="container text-center py-4">
+                    <h1 class="intro-title" >Make Your own Home today </h1>
+                    <h3 class="intro-subtitle" >with our high quality fourniture</h3>
+                      </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center 0">
+                <div class="donation">
+                    <div class="card mb-2 ">
+                        <div class="card-body ">
+                            <form id="donation-form" action="" method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+
+                                    <label class="form-label">Your full name</label>
+                                    {{form.client}}
+                                    
+                                    {% comment %} <input type="text" class="form-control" name="example-text-input"
+                                        placeholder="full name .."> {% endcomment %}
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    {{form.client_email}}
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Amount (DZ)</label>
+                                    {{form.amount}}
+                                </div>
+                               
+                                <button class="btn btn-outline-success align-center flex justify-center" style="display: block; margin: 0 auto;">
+                                    Pay
+                                </button>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </form>
     </div>
-  </div>
+</section>
+
 
 {% endblock content %}
