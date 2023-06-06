@@ -217,13 +217,18 @@ class Cards(APIView):
         Revenue  = Order.objects.aggregate(total_amount=Sum('total_amount'))['total_amount']
         Total_Customer =Customer.objects.filter(role = Customer.CLIENT).count()
         Total_Users =Customer.objects.all().count()
-        withorders = Customer.objects.filter(orders__isnull=False).count()
+        withorders = Customer.objects.filter(role = Customer.CLIENT).filter(orders__isnull=False).distinct().count()
         Total_Price = Order.objects.aggregate(Profit = Sum('items__Product_id__price'))['Profit']
         Total_Bulk = Order.objects.aggregate(Bulk = Sum('items__Product_id__bulk_price'))['Bulk']
+
+        if not Total_Price : Total_Price = 0
+        if not Total_Bulk : Total_Bulk = 0
+        if not Revenue : Revenue = 0
+
         Resp = {
                 'Revenue': Revenue,
                 'Total_Customer': Total_Customer,
-                'Conversion_rate':  withorders *100 / Total_Users,
+                'Conversion_rate':  withorders *100 / Total_Customer,
                 'Total_Profit' : Total_Price - Total_Bulk,
 
                 }
