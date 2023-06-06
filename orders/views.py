@@ -272,12 +272,20 @@ class BestSeller(APIView):
             json.dumps(element)
             i = i+1
         return Response(serializer.data)
-    
+
+
+
 class LatestProducts(APIView):
     def get(self, request):
-        q = Order.objects.all().order_by('-created_at')[:5]
-        serializer = ProductSerializer(q.items.Product_id, many=True)
-        prodlist ={}
-        for order in q :
-            pass
+        q = Order.objects.all().order_by('-created_at')
+
+        latest_products = [item.Product_id for order in q for item in order.items.all()][:10]
+        unique = []
+        seen = set()
+
+        for prodd in latest_products:
+            if prodd not in seen:
+                unique.append(prodd)
+                seen.add(prodd)
+        serializer = ProductSerializer(unique, many=True)
         return Response(serializer.data)
