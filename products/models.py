@@ -113,7 +113,6 @@ class ProductComment(models.Model):
     productList = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="productComments"
     )
-    title = models.CharField(max_length=250)
     text = models.TextField(max_length=1500)
     active = models.BooleanField(default=False)
 

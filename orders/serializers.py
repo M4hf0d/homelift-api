@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Item, Cart ,Payment, Order
+from .models import Item, Cart, Payment, Order
 from users.serializers import CustomerListSerializer
+
 
 class ItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="Product_id.name", read_only=True)
@@ -29,8 +30,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'created_at', 'total_amount', 'items']
-        read_only_fields = ['id', 'created_at', 'total_amount']
+        fields = ["id", "customer", "created_at", "total_amount", "items"]
+        read_only_fields = ["id", "created_at", "total_amount"]
 
 
 class CartSerializer(serializers.ModelSerializer):

@@ -8,9 +8,9 @@ class PaymentForm(ModelForm):
         full_name = kwargs.pop("full_name", None)
         email = kwargs.pop("email", None)
         amount = kwargs.pop("amount", None)
-        
+
         super(PaymentForm, self).__init__(*args, **kwargs)
-        
+
         for field_name, field in self.fields.items():
             field.widget.attrs["class"] = "form-control"
 

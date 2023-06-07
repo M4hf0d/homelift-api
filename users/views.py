@@ -289,6 +289,5 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class UsersListAPIView(generics.ListAPIView):
     serializer_class = CustomerListSerializer
 
-
     def get_queryset(self):
         return Customer.objects.all()

@@ -36,7 +36,6 @@ urlpatterns = [
     path("<int:pk>/view-profile/", ProfileDetailsAV.as_view(), name="view_profile"),
     path("staff-list/", StaffListAPIView.as_view(), name="staff-list"),
     path("users-list/", UsersListAPIView.as_view(), name="users-list"),
-
     path("staff-list/add/", StaffCreateAPIView.as_view(), name="add-staff"),
     path(
         "staff-list/<int:pk>/",

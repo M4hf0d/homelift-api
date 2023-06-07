@@ -56,7 +56,6 @@ class Customer(AbstractBaseUser):
     fullname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20)
-    payment_info = models.TextField(blank=True, null=True)
     created = models.DateField(auto_now_add=True)  # Create
     updated = models.DateField(auto_now=True)  # Update
     GERANT = 1

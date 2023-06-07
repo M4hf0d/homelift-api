@@ -17,26 +17,21 @@ from chargily_epay_django.views import (
     CreatePaymentView,
     PaymentConfirmationView,
     PaymentObjectDoneView,
-    FakePaymentView
-
+    FakePaymentView,
 )
-from django.db.models import Sum,Count
+from django.db.models import Sum, Count
 from datetime import date, timedelta
 import django_filters.rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
-
-
 
 
 class UserOrdersView(APIView):
     def get(self, request, user_id):
         oCustomer = Customer.objects.get(pk=user_id)
         orders = Order.objects.filter(customer=oCustomer)
-        serializer = OrderSerializer(orders , many = True)
+        serializer = OrderSerializer(orders, many=True)
 
         return Response(serializer.data)
-
-
 
 
 class OrdersViewSet(viewsets.ModelViewSet):
@@ -47,12 +42,13 @@ class OrdersViewSet(viewsets.ModelViewSet):
     ordering_fields = ["total_amount", "customer__fullname"]
 
 
-
 class AddToCartAPIView(CreateAPIView):
     serializer_class = ItemSerializer
+
     def get_queryset(self):
         # Return an empty queryset since we are creating a new item
         return Item.objects.none()
+
     def post(self, request, user_id, product_id):
         # product_id = product_id
         # quantity = request.POST["Quantity"]
@@ -103,51 +99,68 @@ class CartCheckAV(ListAPIView):
 
 class CartCheckView(APIView):
     def get(self, request, user_id):
-        cart = Cart.objects.get(Customer_id=user_id)  # Retrieve the cart for the authenticated user
+        cart = Cart.objects.get(
+            Customer_id=user_id
+        )  # Retrieve the cart for the authenticated user
 
-        if cart : 
+        if cart:
             for item in cart.items.all():
                 if item.Quantity > item.Product_id.quantity:
                     print(item.Product_id.name)
                     return Response(
-                        {"error": f"{item.Product_id.name}'s Quantity exceeds available stock."},
-                        status=status.HTTP_400_BAD_REQUEST
+                        {
+                            "error": f"{item.Product_id.name}'s Quantity exceeds available stock."
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
                     )
 
             return Response({"message": "All Set."}, status=status.HTTP_200_OK)
-        else: 
-            return Response({"error": "User Doesnt have a cart"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                {"error": "User Doesnt have a cart"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class CheckoutView(APIView):
     def post(self, request, user_id):
 
-        cart = Cart.objects.get(Customer_id=user_id)  # Retrieve the cart for the authenticated user
-        if  cart.items.count() == 0: return Response({"error": "Order Can't Be empty"}, status=status.HTTP_400_BAD_REQUEST)
-        if not cart :return Response({"error": "User Doesn't have a cart"}, status=status.HTTP_400_BAD_REQUEST) 
+        cart = Cart.objects.get(
+            Customer_id=user_id
+        )  # Retrieve the cart for the authenticated user
+        if cart.items.count() == 0:
+            return Response(
+                {"error": "Order Can't Be empty"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        if not cart:
+            return Response(
+                {"error": "User Doesn't have a cart"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         for item in cart.items.all():
-                if item.Quantity > item.Product_id.quantity:
-                            print(item.Product_id.name)
-                            return Response(
-                                {"error": f"{item.Product_id.name}'s Quantity exceeds available stock."},
-                                status=status.HTTP_400_BAD_REQUEST
-                            )
+            if item.Quantity > item.Product_id.quantity:
+                print(item.Product_id.name)
+                return Response(
+                    {
+                        "error": f"{item.Product_id.name}'s Quantity exceeds available stock."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             # Subtract the item quantity from the available stock
-                item.Product_id.quantity -= item.Quantity
-                item.Product_id.save()
+            item.Product_id.quantity -= item.Quantity
+            item.Product_id.save()
 
-            # Create an order with the items from the cart
+        # Create an order with the items from the cart
         customer = cart.Customer_id
         order = Order.objects.create(customer=customer)
         order.items.set(cart.items.all())
         order.calculate_total_amount()
 
-            # Clear the cart
+        # Clear the cart
         cart.items.clear()
 
-            # Return a success response
+        # Return a success response
         return Response({"message": "Checkout successful."}, status=status.HTTP_200_OK)
-            
+
 
 class ItemDetailsAV(APIView):
     def get(self, request, pk, user_id):
@@ -179,26 +192,28 @@ class ItemDetailsAV(APIView):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 from .forms import PaymentForm
+
 
 class CreatePayment(CreatePaymentView):
     payment_create_faild_url = ""
     template_name: str = "payment/payment.html"
-    form_class =  PaymentForm
-    
+    form_class = PaymentForm
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        user_id = self.kwargs.get("user_id") 
-        customer = Customer.objects.get(id=user_id) 
-        order_id = self.kwargs.get("order_id") 
+        user_id = self.kwargs.get("user_id")
+        customer = Customer.objects.get(id=user_id)
+        order_id = self.kwargs.get("order_id")
         order = Order.objects.get(id=order_id)
         form.initial = {
             "client": customer.fullname,
-            "client_email":  customer.email,
+            "client_email": customer.email,
             "amount": order.total_amount,
         }
         return form
-    
+
 
 class PaymentStatus(PaymentObjectDoneView):
     model = Payment
@@ -208,83 +223,106 @@ class PaymentStatus(PaymentObjectDoneView):
 class ConfirmPayment(PaymentConfirmationView):
     model = Payment
 
+
 class FakePayment(FakePaymentView):
     model = Payment
 
-#stats
+
+# stats
 class Cards(APIView):
     def get(self, request):
-        Revenue  = Order.objects.aggregate(total_amount=Sum('total_amount'))['total_amount']
-        Total_Customer =Customer.objects.filter(role = Customer.CLIENT).count()
-        Total_Users =Customer.objects.all().count()
-        withorders = Customer.objects.filter(role = Customer.CLIENT).filter(orders__isnull=False).distinct().count()
-        Total_Price = Order.objects.aggregate(Profit = Sum('items__Product_id__price'))['Profit']
-        Total_Bulk = Order.objects.aggregate(Bulk = Sum('items__Product_id__bulk_price'))['Bulk']
+        Revenue = Order.objects.aggregate(total_amount=Sum("total_amount"))[
+            "total_amount"
+        ]
+        Total_Customer = Customer.objects.filter(role=Customer.CLIENT).count()
+        Total_Users = Customer.objects.all().count()
+        withorders = (
+            Customer.objects.filter(role=Customer.CLIENT)
+            .filter(orders__isnull=False)
+            .distinct()
+            .count()
+        )
+        Total_Price = Order.objects.aggregate(Profit=Sum("items__Product_id__price"))[
+            "Profit"
+        ]
+        Total_Bulk = Order.objects.aggregate(Bulk=Sum("items__Product_id__bulk_price"))[
+            "Bulk"
+        ]
 
-        if not Total_Price : Total_Price = 0
-        if not Total_Bulk : Total_Bulk = 0
-        if not Revenue : Revenue = 0
+        if not Total_Price:
+            Total_Price = 0
+        if not Total_Bulk:
+            Total_Bulk = 0
+        if not Revenue:
+            Revenue = 0
 
         Resp = {
-                'Revenue': Revenue,
-                'Total_Customer': Total_Customer,
-                'Conversion_rate':  withorders *100 / Total_Customer,
-                'Total_Profit' : Total_Price - Total_Bulk,
-
-                }
+            "Revenue": Revenue,
+            "Total_Customer": Total_Customer,
+            "Conversion_rate": withorders * 100 / Total_Customer,
+            "Total_Profit": Total_Price - Total_Bulk,
+        }
         return Response(Resp)
 
 
 class WeeklyOrders(APIView):
- def get(self, request):
+    def get(self, request):
         today = date.today()
-        start_week = today - timedelta(days=today.weekday()+2)
+        start_week = today - timedelta(days=today.weekday() + 2)
 
-        saturday = Order.objects.filter(
-            created_at__date=start_week).count()
+        saturday = Order.objects.filter(created_at__date=start_week).count()
         sunday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=1)).count()
+            created_at__date=start_week + timedelta(days=1)
+        ).count()
         monday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=2)).count()
+            created_at__date=start_week + timedelta(days=2)
+        ).count()
         tuesday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=3)).count()
+            created_at__date=start_week + timedelta(days=3)
+        ).count()
         wednesday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=4)).count()
+            created_at__date=start_week + timedelta(days=4)
+        ).count()
         thursday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=5)).count()
+            created_at__date=start_week + timedelta(days=5)
+        ).count()
         friday = Order.objects.filter(
-            created_at__date=start_week +timedelta(days=6)).count()
+            created_at__date=start_week + timedelta(days=6)
+        ).count()
         Resp = {
-                'saturday': saturday,
-                'sunday' : sunday,
-                'monday': monday,
-                'tuesday': tuesday,
-                'wednesday': wednesday,
-                'thursday': thursday,
-                'friday': friday
-                }
+            "saturday": saturday,
+            "sunday": sunday,
+            "monday": monday,
+            "tuesday": tuesday,
+            "wednesday": wednesday,
+            "thursday": thursday,
+            "friday": friday,
+        }
         return Response(Resp)
 
 
 class BestSeller(APIView):
     def get(self, request):
-        q = Product.objects.annotate(sales=Count('PRODUCT__order_item')).order_by('-sales')[:5]
+        q = Product.objects.annotate(sales=Count("PRODUCT__order_item")).order_by(
+            "-sales"
+        )[:5]
         serializer = ProductSerializer(q, many=True)
 
         i = 0
         for element in serializer.data:
             element["Times_Sold"] = q[i].sales
             json.dumps(element)
-            i = i+1
+            i = i + 1
         return Response(serializer.data)
-
 
 
 class LatestProducts(APIView):
     def get(self, request):
-        q = Order.objects.all().order_by('-created_at')
+        q = Order.objects.all().order_by("-created_at")
 
-        latest_products = [item.Product_id for order in q for item in order.items.all()][:10]
+        latest_products = [
+            item.Product_id for order in q for item in order.items.all()
+        ][:10]
         unique = []
         seen = set()
 

@@ -5,6 +5,7 @@ from chargily_epay_django.models import AnonymPayment, FakePaymentMixin
 from django.urls import reverse
 from chargily_epay_django.utils import get_webhook_url
 
+
 class Item(models.Model):
     Product_id = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="PRODUCT", editable=False
@@ -41,7 +42,7 @@ class Order(models.Model):
     # )
     # status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     Delivery = models.BooleanField(default=False)
-    
+
     def calculate_total_amount(self):
         items = self.items.all()
         total = sum(item.Quantity * item.Product_id.price for item in items)
@@ -52,8 +53,7 @@ class Order(models.Model):
         return str(self.id) + "  " + str(self.customer.email)
 
 
-    
-class Payment(FakePaymentMixin,AnonymPayment):
+class Payment(FakePaymentMixin, AnonymPayment):
     webhook_url = "create-payment"
     fake_payment_url = "fake-payment"
 
