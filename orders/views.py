@@ -39,7 +39,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ["customer__fullname", "email"]
-    ordering_fields = ["total_amount", "customer__fullname"]
+    ordering_fields = ["total_amount", "customer__fullname","created_at"]
 
 
 class AddToCartAPIView(CreateAPIView):
@@ -124,7 +124,6 @@ class CartCheckView(APIView):
 
 class CheckoutView(APIView):
     def post(self, request, user_id):
-
         cart = Cart.objects.get(
             Customer_id=user_id
         )  # Retrieve the cart for the authenticated user
@@ -158,9 +157,9 @@ class CheckoutView(APIView):
 
         # Clear the cart
         cart.items.clear()
-
+        serializers = OrderSerializer(order)
         # Return a success response
-        return Response({"message": "Checkout successful."}, status=status.HTTP_200_OK)
+        return Response(serializers.data, status=status.HTTP_200_OK)
 
 
 class ItemDetailsAV(APIView):
@@ -207,6 +206,9 @@ class CreatePayment(CreatePaymentView):
         user_id = self.kwargs.get("user_id")
         customer = Customer.objects.get(id=user_id)
         order_id = self.kwargs.get("order_id")
+        POrder = Order.objects.get(id = order_id)
+        POrder.status = "C"
+        POrder.save()
         order = Order.objects.get(id=order_id)
         form.initial = {
             "client": customer.fullname,
