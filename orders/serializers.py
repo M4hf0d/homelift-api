@@ -31,7 +31,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ["id", "customer", "created_at", "total_amount", "items"]
+        fields = ["id", "customer", "created_at", "total_amount", "items","shipping_adress"]
         read_only_fields = ["id", "created_at", "total_amount"]
     def get_shipping_adress(self,obj):
         
