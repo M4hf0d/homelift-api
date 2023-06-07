@@ -56,7 +56,7 @@ class AddToCartAPIView(CreateAPIView):
         if int(quantity) <= 0:
             raise serializers.ValidationError("Quantity must be a positive integer")
         if int(quantity) > product.quantity:
-            raise serializers.ValidationError("Quantity not available for "  + product_id.name)
+            raise serializers.ValidationError("Quantity not available for "  + product.name)
         cster = Customer.objects.get(id=user_id)
         try:
             cart = Cart.objects.get(Customer_id=cster)
