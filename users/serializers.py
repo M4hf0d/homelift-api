@@ -24,7 +24,6 @@ class CustomerSerializer(serializers.ModelSerializer):
             "street",
             "addresse_line",
             "code_postal",
-            "payment_info",
             "role",
             "blocked",
             "profile_picture",
@@ -54,7 +53,6 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
             "street",
             "addresse_line",
             "code_postal",
-            "payment_info",
             "role",
             "blocked",
             "profile_picture",
@@ -76,7 +74,6 @@ class CustomerListSerializer(serializers.ModelSerializer):
             "street",
             "addresse_line",
             "code_postal",
-            "payment_info",
             "role",
             "blocked",
             "profile_picture",
@@ -100,7 +97,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             "street",
             "addresse_line",
             "code_postal",
-            "payment_info",
             "role",
         ]
         extra_kwargs = {"password": {"write_only": True}}
