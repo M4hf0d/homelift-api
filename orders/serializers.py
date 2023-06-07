@@ -27,12 +27,15 @@ class ItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerListSerializer()
     items = ItemSerializer(many=True)
+    shipping_adress = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = ["id", "customer", "created_at", "total_amount", "items"]
         read_only_fields = ["id", "created_at", "total_amount"]
-
+    def get_shipping_adress(self,obj):
+        
+        return obj.customer.code_postal
 
 class CartSerializer(serializers.ModelSerializer):
     # items = serializers.CharField(source="items.Product_id.name", many= True)
