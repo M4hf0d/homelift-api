@@ -50,12 +50,12 @@ class AddToCartAPIView(CreateAPIView):
         return Item.objects.none()
 
     def post(self, request, user_id, product_id):
-        product_id = Product.objects.get(id=product_id)
+        product = Product.objects.get(id=product_id)
         # quantity = request.POST["Quantity"]
         quantity = request.data["Quantity"]
         if int(quantity) <= 0:
             raise serializers.ValidationError("Quantity must be a positive integer")
-        if int(quantity) > product_id.quantity:
+        if int(quantity) > product.quantity:
             raise serializers.ValidationError("Quantity not available for "  + product_id.name)
         cster = Customer.objects.get(id=user_id)
         try:
