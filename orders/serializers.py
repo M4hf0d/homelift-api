@@ -5,6 +5,7 @@ from users.serializers import CustomerListSerializer
 
 class ItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="Product_id.name", read_only=True)
+    image = serializers.SerializerMethodField()
     unit_price = serializers.SerializerMethodField()
     items_price = serializers.SerializerMethodField()
 
@@ -22,6 +23,9 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def get_unit_price(self, obj):
         return obj.Product_id.price
+    
+    def get_image(self,obj): #إعمل نفسك ميت
+        return 'http://127.0.0.1:8000/images/' +str(obj.Product_id.image)
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -34,8 +38,8 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ["id", "customer", "created_at", "total_amount", "items","shipping_adress"]
         read_only_fields = ["id", "created_at", "total_amount"]
     def get_shipping_adress(self,obj):
-        
         return obj.customer.code_postal
+    
 
 class CartSerializer(serializers.ModelSerializer):
     # items = serializers.CharField(source="items.Product_id.name", many= True)
