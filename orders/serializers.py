@@ -32,13 +32,22 @@ class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerListSerializer()
     items = ItemSerializer(many=True)
     shipping_adress = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
-        fields = ["id", "customer", "created_at", "total_amount", "items","shipping_adress"]
+        fields = ["id", "customer", "created_at", "total_amount", "items","shipping_adress","status"]
         read_only_fields = ["id", "created_at", "total_amount"]
     def get_shipping_adress(self,obj):
         return obj.customer.code_postal
+    def get_status(self,obj):
+        if obj.status=="C":
+            return 'Completed'
+        elif obj.status=="P":
+            return 'Pending'
+        elif obj.status=="X":
+            return 'Canceled'
+        
     
 
 class CartSerializer(serializers.ModelSerializer):
